@@ -1,0 +1,468 @@
+{
+  "Resources": {
+    "MWAADevOpsWldApacheAirflowVPC3BD53A14": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.192.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/Resource"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCpublicSubnet1SubnetE4746FA9": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.192.0.0/24",
+        "VpcId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+        },
+        "AvailabilityZone": "us-east-2a",
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "public"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public"
+          },
+          {
+            "Key": "Name",
+            "Value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/Subnet"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCpublicSubnet1RouteTable52796DC5": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/RouteTable"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCpublicSubnet1RouteTableAssociation6B52DDBB": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1RouteTable52796DC5"
+        },
+        "SubnetId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1SubnetE4746FA9"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/RouteTableAssociation"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCpublicSubnet1DefaultRouteDBBDC208": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1RouteTable52796DC5"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCIGW7B4098AC"
+        }
+      },
+      "DependsOn": [
+        "MWAADevOpsWldApacheAirflowVPCVPCGW53487B6C"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/DefaultRoute"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCpublicSubnet1EIP4D3CB7B1": {
+      "Type": "AWS::EC2::EIP",
+      "Properties": {
+        "Domain": "vpc",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/EIP"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCpublicSubnet1NATGatewayE9268F9C": {
+      "Type": "AWS::EC2::NatGateway",
+      "Properties": {
+        "SubnetId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1SubnetE4746FA9"
+        },
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "MWAADevOpsWldApacheAirflowVPCpublicSubnet1EIP4D3CB7B1",
+            "AllocationId"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/NATGateway"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCpublicSubnet2Subnet1D5ECA00": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.192.1.0/24",
+        "VpcId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+        },
+        "AvailabilityZone": "us-east-2b",
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "public"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public"
+          },
+          {
+            "Key": "Name",
+            "Value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2/Subnet"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCpublicSubnet2RouteTableB0EF0A11": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2/RouteTable"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCpublicSubnet2RouteTableAssociationE7C3EB10": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet2RouteTableB0EF0A11"
+        },
+        "SubnetId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet2Subnet1D5ECA00"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2/RouteTableAssociation"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCpublicSubnet2DefaultRoute1B06FB97": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet2RouteTableB0EF0A11"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCIGW7B4098AC"
+        }
+      },
+      "DependsOn": [
+        "MWAADevOpsWldApacheAirflowVPCVPCGW53487B6C"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2/DefaultRoute"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCprivateSubnet1Subnet2397E701": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.192.2.0/24",
+        "VpcId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+        },
+        "AvailabilityZone": "us-east-2a",
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "private"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private"
+          },
+          {
+            "Key": "Name",
+            "Value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1/Subnet"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCprivateSubnet1RouteTable3B90D7A5": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1/RouteTable"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCprivateSubnet1RouteTableAssociation7B5CB92F": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCprivateSubnet1RouteTable3B90D7A5"
+        },
+        "SubnetId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCprivateSubnet1Subnet2397E701"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1/RouteTableAssociation"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCprivateSubnet1DefaultRouteDA809084": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCprivateSubnet1RouteTable3B90D7A5"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1NATGatewayE9268F9C"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1/DefaultRoute"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCprivateSubnet2Subnet6189CFE7": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.192.3.0/24",
+        "VpcId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+        },
+        "AvailabilityZone": "us-east-2b",
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "private"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private"
+          },
+          {
+            "Key": "Name",
+            "Value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2/Subnet"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCprivateSubnet2RouteTableDA26173E": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2/RouteTable"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCprivateSubnet2RouteTableAssociation60C0EB3C": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCprivateSubnet2RouteTableDA26173E"
+        },
+        "SubnetId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCprivateSubnet2Subnet6189CFE7"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2/RouteTableAssociation"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCprivateSubnet2DefaultRoute5E07E2D3": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCprivateSubnet2RouteTableDA26173E"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1NATGatewayE9268F9C"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2/DefaultRoute"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCIGW7B4098AC": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/IGW"
+      }
+    },
+    "MWAADevOpsWldApacheAirflowVPCVPCGW53487B6C": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+        },
+        "InternetGatewayId": {
+          "Ref": "MWAADevOpsWldApacheAirflowVPCIGW7B4098AC"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/VPCGW"
+      }
+    },
+    "CDKMetadata": {
+      "Type": "AWS::CDK::Metadata",
+      "Properties": {
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/0WOUQuCMBSFf0vvc4UR9CoS4UsNDV9jrhsudRN3l4j435tp7el+9+NwOCEN6W7DexOIRxXUsqBjhlxUxKk7iJCOeStI/FQ5iwmzRS1FZgsFODtPqbYIN17U4L13kTFaSI5Sq394hlPC5nPheOYIPR8I6+TboS9OFELn+BdYlqxfhG5q2YDCiaRgtO3Et/dqsbXLrtVOhA1YarXd0yM9bF5GyqCzCmUDNF3uB58kxTAKAQAA"
+      },
+      "Metadata": {
+        "aws:cdk:path": "mwaa-devopswld-backend/CDKMetadata/Default"
+      }
+    }
+  },
+  "Outputs": {
+    "VPCId": {
+      "Description": "VPC ID",
+      "Value": {
+        "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+      },
+      "Export": {
+        "Name": "us-east-2:704533066374:mwaa-devopswld-backend:vpc-id"
+      }
+    },
+    "ExportsOutputRefMWAADevOpsWldApacheAirflowVPC3BD53A14D6136385": {
+      "Value": {
+        "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+      },
+      "Export": {
+        "Name": "mwaa-devopswld-backend:ExportsOutputRefMWAADevOpsWldApacheAirflowVPC3BD53A14D6136385"
+      }
+    },
+    "ExportsOutputRefMWAADevOpsWldApacheAirflowVPCprivateSubnet1Subnet2397E7010300BFD7": {
+      "Value": {
+        "Ref": "MWAADevOpsWldApacheAirflowVPCprivateSubnet1Subnet2397E701"
+      },
+      "Export": {
+        "Name": "mwaa-devopswld-backend:ExportsOutputRefMWAADevOpsWldApacheAirflowVPCprivateSubnet1Subnet2397E7010300BFD7"
+      }
+    },
+    "ExportsOutputRefMWAADevOpsWldApacheAirflowVPCprivateSubnet2Subnet6189CFE72253D982": {
+      "Value": {
+        "Ref": "MWAADevOpsWldApacheAirflowVPCprivateSubnet2Subnet6189CFE7"
+      },
+      "Export": {
+        "Name": "mwaa-devopswld-backend:ExportsOutputRefMWAADevOpsWldApacheAirflowVPCprivateSubnet2Subnet6189CFE72253D982"
+      }
+    }
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Type": "AWS::SSM::Parameter::Value<String>",
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+    }
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                  ],
+                  {
+                    "Ref": "BootstrapVersion"
+                  }
+                ]
+              }
+            ]
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+        }
+      ]
+    }
+  }
+}

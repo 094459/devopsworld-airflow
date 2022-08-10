@@ -1,0 +1,49 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - REPO_ECR="704533066374.dkr.ecr.eu-west-3.amazonaws.com/airflow"
+      - version=$(aws ssm get-parameter --name "BUILD_VERSION" --region 'eu-west-3' --with-decryption | sed -n -e 's/.*Value\"[^\"]*//p' | sed -n -e 's/[\"\,]//gp')
+      - majorminor=$(printf $version | grep -o ^[0-9]*\\.[0-9]*\. | tr -d '\n')
+      - patch=$(printf $version | grep -o [0-9]*$ | tr -d '\n')
+      - patch=$(($patch+1))
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - REPOSITORY_URI=${REPO_ECR}
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=$majorminor$patch
+      - curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/linux/amd64/aws-iam-authenticator
+      - chmod +x ./aws-iam-authenticator
+      - mkdir -p ~/bin && cp ./aws-iam-authenticator ~/bin/aws-iam-authenticator && export PATH=~/bin:$PATH
+    # current bug with latest version that generates error "error: exec plugin: invalid apiVersion "client.authentication.k8s.io/v1alpha1"" -> https://github.com/aws/aws-cli/issues/6920
+    #curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+      - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.23.6/bin/linux/amd64/kubectl
+      - chmod +x kubectl
+      - mv ./kubectl /usr/local/bin/kubectl
+      - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+      - chmod 700 get_helm.sh
+      - DESIRED_VERSION=v3.8.2
+      - ./get_helm.sh
+      - aws eks update-kubeconfig --name Airflow-on-Kubernetes --region eu-west-3 --role-arn arn:aws:iam::704533066374:role/airflow-codebuild
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - cd docker
+      #- docker build -t $REPOSITORY_URI:latest .
+      #- docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
+      - docker tag $REPOSITORY_URI:$IMAGE_TAG $REPOSITORY_URI:$IMAGE_TAG
+      #- cat ../helm/values.yaml
+      #- sed -i "s|{airflowrelease}|$IMAGE_TAG|g" ../helm/values.yaml
+      #- cat ../helm/values.yaml
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      #- docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - silent=$(aws ssm put-parameter --name "BUILD_VERSION" --region 'eu-west-3' --value "$majorminor$patch" --type "SecureString" --overwrite)
+      #- helm repo add airflow-stable https://airflow-helm.github.io/charts
+      #- helm upgrade -i airflow-cluster airflow-stable/airflow --namespace airflow-cluster --version "8.6.0" --values ../helm/values.yaml --debug

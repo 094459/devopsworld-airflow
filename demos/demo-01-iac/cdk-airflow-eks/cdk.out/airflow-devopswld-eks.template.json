@@ -1,0 +1,1768 @@
+{
+  "Resources": {
+    "ClusterAdminRole047D4FCA": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::704533066374:root"
+                    ]
+                  ]
+                },
+                "Service": "ec2.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/ClusterAdminRole/Resource"
+      }
+    },
+    "ClusterAdminRoleDefaultPolicy7B82B7E8": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "eks:DescribeCluster",
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "ClusterAdminRoleDefaultPolicy7B82B7E8",
+        "Roles": [
+          {
+            "Ref": "ClusterAdminRole047D4FCA"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/ClusterAdminRole/DefaultPolicy/Resource"
+      }
+    },
+    "AirflowEKSRoleE049097A": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "eks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/AmazonEKSClusterPolicy"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/Role/Resource"
+      }
+    },
+    "AirflowEKSControlPlaneSecurityGroup729EE591": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "EKS Control Plane Security Group",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1"
+          }
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "airflow-devopswld-vpc:ExportsOutputRefEKSDevOpsWldApacheAirflowVPC475066EEF6BA0C3F"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/ControlPlaneSecurityGroup/Resource"
+      }
+    },
+    "AirflowEKSCreationRole11138011": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::704533066374:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/Resource/CreationRole/Resource"
+      }
+    },
+    "AirflowEKSCreationRoleDefaultPolicyC6C2726A": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "iam:PassRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "AirflowEKSRoleE049097A",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "eks:CreateCluster",
+                "eks:DescribeCluster",
+                "eks:DescribeUpdate",
+                "eks:DeleteCluster",
+                "eks:UpdateClusterVersion",
+                "eks:UpdateClusterConfig",
+                "eks:CreateFargateProfile",
+                "eks:TagResource",
+                "eks:UntagResource"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                "*"
+              ]
+            },
+            {
+              "Action": [
+                "eks:DescribeFargateProfile",
+                "eks:DeleteFargateProfile"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "iam:GetRole",
+                "iam:listAttachedRolePolicies"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "iam:CreateServiceLinkedRole",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "ec2:DescribeInstances",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeRouteTables",
+                "ec2:DescribeDhcpOptions",
+                "ec2:DescribeVpcs"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "AirflowEKSCreationRoleDefaultPolicyC6C2726A",
+        "Roles": [
+          {
+            "Ref": "AirflowEKSCreationRole11138011"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/Resource/CreationRole/DefaultPolicy/Resource"
+      }
+    },
+    "AirflowEKS9392A036": {
+      "Type": "Custom::AWSCDK-EKS-Cluster",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksClusterResourceProviderNestedStackawscdkawseksClusterResourceProviderNestedStackResource9827C454",
+            "Outputs.airflowdevopswldeksawscdkawseksClusterResourceProviderframeworkonEvent91025033Arn"
+          ]
+        },
+        "Config": {
+          "version": "1.20",
+          "roleArn": {
+            "Fn::GetAtt": [
+              "AirflowEKSRoleE049097A",
+              "Arn"
+            ]
+          },
+          "resourcesVpcConfig": {
+            "subnetIds": [
+              {
+                "Fn::ImportValue": "airflow-devopswld-vpc:ExportsOutputRefEKSDevOpsWldApacheAirflowVPCprivateSubnet1Subnet6E02F18F4D76C6CC"
+              },
+              {
+                "Fn::ImportValue": "airflow-devopswld-vpc:ExportsOutputRefEKSDevOpsWldApacheAirflowVPCprivateSubnet2SubnetDEB426E451D1AE9C"
+              }
+            ],
+            "securityGroupIds": [
+              {
+                "Fn::GetAtt": [
+                  "AirflowEKSControlPlaneSecurityGroup729EE591",
+                  "GroupId"
+                ]
+              }
+            ],
+            "endpointPublicAccess": true,
+            "endpointPrivateAccess": true
+          }
+        },
+        "AssumeRoleArn": {
+          "Fn::GetAtt": [
+            "AirflowEKSCreationRole11138011",
+            "Arn"
+          ]
+        },
+        "AttributesRevision": 2
+      },
+      "DependsOn": [
+        "AirflowEKSCreationRoleDefaultPolicyC6C2726A",
+        "AirflowEKSCreationRole11138011"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/Resource/Resource/Default"
+      }
+    },
+    "AirflowEKSKubectlReadyBarrier955CB8BA": {
+      "Type": "AWS::SSM::Parameter",
+      "Properties": {
+        "Type": "String",
+        "Value": "aws:cdk:eks:kubectl-ready"
+      },
+      "DependsOn": [
+        "AirflowEKSCreationRoleDefaultPolicyC6C2726A",
+        "AirflowEKSCreationRole11138011",
+        "AirflowEKS9392A036"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/KubectlReadyBarrier"
+      }
+    },
+    "AirflowEKSAwsAuthmanifest88A95233": {
+      "Type": "Custom::AWSCDK-EKS-KubernetesResource",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
+            "Outputs.airflowdevopswldeksawscdkawseksKubectlProviderframeworkonEvent20A77165Arn"
+          ]
+        },
+        "Manifest": {
+          "Fn::Join": [
+            "",
+            [
+              "[{\"apiVersion\":\"v1\",\"kind\":\"ConfigMap\",\"metadata\":{\"name\":\"aws-auth\",\"namespace\":\"kube-system\",\"labels\":{\"aws.cdk.eks/prune-c86e3d43f83d04f3ddbe5365a05f85e49caf590dd5\":\"\"}},\"data\":{\"mapRoles\":\"[{\\\"rolearn\\\":\\\"",
+              {
+                "Fn::GetAtt": [
+                  "ClusterAdminRole047D4FCA",
+                  "Arn"
+                ]
+              },
+              "\\\",\\\"username\\\":\\\"",
+              {
+                "Fn::GetAtt": [
+                  "ClusterAdminRole047D4FCA",
+                  "Arn"
+                ]
+              },
+              "\\\",\\\"groups\\\":[\\\"system:masters\\\"]},{\\\"rolearn\\\":\\\"",
+              {
+                "Fn::GetAtt": [
+                  "AirflowEKSNodegroupDefaultCapacityNodeGroupRole4795B96A",
+                  "Arn"
+                ]
+              },
+              "\\\",\\\"username\\\":\\\"system:node:{{EC2PrivateDNSName}}\\\",\\\"groups\\\":[\\\"system:bootstrappers\\\",\\\"system:nodes\\\"]},{\\\"rolearn\\\":\\\"",
+              {
+                "Fn::GetAtt": [
+                  "AirflowEKSNodegroupDefaultCapacityNodeGroupRole4795B96A",
+                  "Arn"
+                ]
+              },
+              "\\\",\\\"username\\\":\\\"system:node:{{EC2PrivateDNSName}}\\\",\\\"groups\\\":[\\\"system:bootstrappers\\\",\\\"system:nodes\\\"]}]\",\"mapUsers\":\"[{\\\"userarn\\\":\\\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":iam::704533066374:user/ops\\\",\\\"username\\\":\\\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":iam::704533066374:user/ops\\\",\\\"groups\\\":[\\\"system:masters\\\"]}]\",\"mapAccounts\":\"[]\"}}]"
+            ]
+          ]
+        },
+        "ClusterName": {
+          "Ref": "AirflowEKS9392A036"
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "AirflowEKSCreationRole11138011",
+            "Arn"
+          ]
+        },
+        "PruneLabel": "aws.cdk.eks/prune-c86e3d43f83d04f3ddbe5365a05f85e49caf590dd5",
+        "Overwrite": true
+      },
+      "DependsOn": [
+        "AirflowEKSKubectlReadyBarrier955CB8BA"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/AwsAuth/manifest/Resource/Default"
+      }
+    },
+    "AirflowEKSNodegroupDefaultCapacityNodeGroupRole4795B96A": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/AmazonEKSWorkerNodePolicy"
+              ]
+            ]
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/AmazonEKS_CNI_Policy"
+              ]
+            ]
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+              ]
+            ]
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/SecretsManagerReadWrite"
+              ]
+            ]
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/AmazonSSMManagedInstanceCore"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/NodegroupDefaultCapacity/NodeGroupRole/Resource"
+      }
+    },
+    "AirflowEKSNodegroupDefaultCapacity33EF0F0E": {
+      "Type": "AWS::EKS::Nodegroup",
+      "Properties": {
+        "ClusterName": {
+          "Ref": "AirflowEKS9392A036"
+        },
+        "NodeRole": {
+          "Fn::GetAtt": [
+            "AirflowEKSNodegroupDefaultCapacityNodeGroupRole4795B96A",
+            "Arn"
+          ]
+        },
+        "Subnets": [
+          {
+            "Fn::ImportValue": "airflow-devopswld-vpc:ExportsOutputRefEKSDevOpsWldApacheAirflowVPCprivateSubnet1Subnet6E02F18F4D76C6CC"
+          },
+          {
+            "Fn::ImportValue": "airflow-devopswld-vpc:ExportsOutputRefEKSDevOpsWldApacheAirflowVPCprivateSubnet2SubnetDEB426E451D1AE9C"
+          }
+        ],
+        "AmiType": "AL2_x86_64",
+        "ForceUpdateEnabled": true,
+        "InstanceTypes": [
+          "m5.large"
+        ],
+        "ScalingConfig": {
+          "DesiredSize": 1,
+          "MaxSize": 1,
+          "MinSize": 1
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/NodegroupDefaultCapacity/Resource"
+      }
+    },
+    "AirflowEKSNodegroupx8614B06817": {
+      "Type": "AWS::EKS::Nodegroup",
+      "Properties": {
+        "ClusterName": {
+          "Ref": "AirflowEKS9392A036"
+        },
+        "NodeRole": {
+          "Fn::GetAtt": [
+            "AirflowEKSNodegroupDefaultCapacityNodeGroupRole4795B96A",
+            "Arn"
+          ]
+        },
+        "Subnets": [
+          {
+            "Fn::ImportValue": "airflow-devopswld-vpc:ExportsOutputRefEKSDevOpsWldApacheAirflowVPCprivateSubnet1Subnet6E02F18F4D76C6CC"
+          },
+          {
+            "Fn::ImportValue": "airflow-devopswld-vpc:ExportsOutputRefEKSDevOpsWldApacheAirflowVPCprivateSubnet2SubnetDEB426E451D1AE9C"
+          }
+        ],
+        "AmiType": "AL2_x86_64",
+        "ForceUpdateEnabled": true,
+        "InstanceTypes": [
+          "c4.2xlarge",
+          "c5.2xlarge",
+          "c5d.2xlarge",
+          "c5a.2xlarge",
+          "c5n.2xlarge"
+        ],
+        "NodegroupName": "x86",
+        "ScalingConfig": {
+          "DesiredSize": 1,
+          "MaxSize": 1,
+          "MinSize": 1
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/Nodegroupx86/Resource"
+      }
+    },
+    "AirflowEKSawsloadbalancercontrollerConditionJson8720A4B4": {
+      "Type": "Custom::AWSCDKCfnJson",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "AWSCDKCfnUtilsProviderCustomResourceProviderHandlerCF82AA57",
+            "Arn"
+          ]
+        },
+        "Value": {
+          "Fn::Join": [
+            "",
+            [
+              "{\"",
+              {
+                "Fn::Select": [
+                  1,
+                  {
+                    "Fn::Split": [
+                      ":oidc-provider/",
+                      {
+                        "Ref": "AirflowEKSOpenIdConnectProvider52B4CA29"
+                      }
+                    ]
+                  }
+                ]
+              },
+              ":aud\":\"sts.amazonaws.com\",\"",
+              {
+                "Fn::Select": [
+                  1,
+                  {
+                    "Fn::Split": [
+                      ":oidc-provider/",
+                      {
+                        "Ref": "AirflowEKSOpenIdConnectProvider52B4CA29"
+                      }
+                    ]
+                  }
+                ]
+              },
+              ":sub\":\"system:serviceaccount:kube-system:aws-load-balancer-controller\"}"
+            ]
+          ]
+        }
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/aws-load-balancer-controller/ConditionJson/Resource/Default"
+      }
+    },
+    "AirflowEKSawsloadbalancercontrollerRoleB0AFDB94": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRoleWithWebIdentity",
+              "Condition": {
+                "StringEquals": {
+                  "Fn::GetAtt": [
+                    "AirflowEKSawsloadbalancercontrollerConditionJson8720A4B4",
+                    "Value"
+                  ]
+                }
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Federated": {
+                  "Ref": "AirflowEKSOpenIdConnectProvider52B4CA29"
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/aws-load-balancer-controller/Role/Resource"
+      }
+    },
+    "AirflowEKSawsloadbalancercontrollermanifestawsloadbalancercontrollerServiceAccountResource63A29A79": {
+      "Type": "Custom::AWSCDK-EKS-KubernetesResource",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
+            "Outputs.airflowdevopswldeksawscdkawseksKubectlProviderframeworkonEvent20A77165Arn"
+          ]
+        },
+        "Manifest": {
+          "Fn::Join": [
+            "",
+            [
+              "[{\"apiVersion\":\"v1\",\"kind\":\"ServiceAccount\",\"metadata\":{\"name\":\"aws-load-balancer-controller\",\"namespace\":\"kube-system\",\"labels\":{\"aws.cdk.eks/prune-c88d21232fd9b3d15db20cfb1c266b771f7299ae18\":\"\",\"app.kubernetes.io/name\":\"aws-load-balancer-controller\"},\"annotations\":{\"eks.amazonaws.com/role-arn\":\"",
+              {
+                "Fn::GetAtt": [
+                  "AirflowEKSawsloadbalancercontrollerRoleB0AFDB94",
+                  "Arn"
+                ]
+              },
+              "\"}}}]"
+            ]
+          ]
+        },
+        "ClusterName": {
+          "Ref": "AirflowEKS9392A036"
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "AirflowEKSCreationRole11138011",
+            "Arn"
+          ]
+        },
+        "PruneLabel": "aws.cdk.eks/prune-c88d21232fd9b3d15db20cfb1c266b771f7299ae18"
+      },
+      "DependsOn": [
+        "AirflowEKSKubectlReadyBarrier955CB8BA"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/aws-load-balancer-controller/manifest-aws-load-balancer-controllerServiceAccountResource/Resource/Default"
+      }
+    },
+    "AirflowEKSOpenIdConnectProvider52B4CA29": {
+      "Type": "Custom::AWSCDKOpenIdConnectProvider",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomAWSCDKOpenIdConnectProviderCustomResourceProviderHandlerF2C543E0",
+            "Arn"
+          ]
+        },
+        "ClientIDList": [
+          "sts.amazonaws.com"
+        ],
+        "ThumbprintList": [
+          "9e99a48a9960b14926bb7f3b02e22da2b0ab7280"
+        ],
+        "Url": {
+          "Fn::GetAtt": [
+            "AirflowEKS9392A036",
+            "OpenIdConnectIssuerUrl"
+          ]
+        }
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/OpenIdConnectProvider/Resource/Default"
+      }
+    },
+    "AirflowEKSchartawsloadbalancercontroller82333AF1": {
+      "Type": "Custom::AWSCDK-EKS-HelmChart",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
+            "Outputs.airflowdevopswldeksawscdkawseksKubectlProviderframeworkonEvent20A77165Arn"
+          ]
+        },
+        "ClusterName": {
+          "Ref": "AirflowEKS9392A036"
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "AirflowEKSCreationRole11138011",
+            "Arn"
+          ]
+        },
+        "Release": "aws-load-balancer-controller",
+        "Chart": "aws-load-balancer-controller",
+        "Version": "1.4.3",
+        "Values": {
+          "Fn::Join": [
+            "",
+            [
+              "{\"clusterName\":\"",
+              {
+                "Ref": "AirflowEKS9392A036"
+              },
+              "\",\"region\":\"us-east-2\",\"vpcId\":\"",
+              {
+                "Fn::ImportValue": "airflow-devopswld-vpc:ExportsOutputRefEKSDevOpsWldApacheAirflowVPC475066EEF6BA0C3F"
+              },
+              "\",\"serviceAccount\":{\"create\":false,\"name\":\"aws-load-balancer-controller\"},\"replicaCount\":2,\"podDisruptionBudget\":{\"maxUnavailable\":1},\"resources\":{\"requests\":{\"cpu\":\"0.25\",\"memory\":\"0.5Gi\"}}}"
+            ]
+          ]
+        },
+        "Namespace": "kube-system",
+        "Repository": "https://aws.github.io/eks-charts",
+        "CreateNamespace": true
+      },
+      "DependsOn": [
+        "AirflowEKSawsloadbalancercontrollerConditionJson8720A4B4",
+        "AirflowEKSawsloadbalancercontrollermanifestawsloadbalancercontrollerServiceAccountResource63A29A79",
+        "AirflowEKSawsloadbalancercontrollerRoleB0AFDB94",
+        "AirflowEKSKubectlReadyBarrier955CB8BA"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/chart-aws-load-balancer-controller/Resource/Default"
+      }
+    },
+    "AirflowEKSawsefscsidriverConditionJsonD8DD3DBE": {
+      "Type": "Custom::AWSCDKCfnJson",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "AWSCDKCfnUtilsProviderCustomResourceProviderHandlerCF82AA57",
+            "Arn"
+          ]
+        },
+        "Value": {
+          "Fn::Join": [
+            "",
+            [
+              "{\"",
+              {
+                "Fn::Select": [
+                  1,
+                  {
+                    "Fn::Split": [
+                      ":oidc-provider/",
+                      {
+                        "Ref": "AirflowEKSOpenIdConnectProvider52B4CA29"
+                      }
+                    ]
+                  }
+                ]
+              },
+              ":aud\":\"sts.amazonaws.com\",\"",
+              {
+                "Fn::Select": [
+                  1,
+                  {
+                    "Fn::Split": [
+                      ":oidc-provider/",
+                      {
+                        "Ref": "AirflowEKSOpenIdConnectProvider52B4CA29"
+                      }
+                    ]
+                  }
+                ]
+              },
+              ":sub\":\"system:serviceaccount:kube-system:awsefscsidriver\"}"
+            ]
+          ]
+        }
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/awsefscsidriver/ConditionJson/Resource/Default"
+      }
+    },
+    "AirflowEKSawsefscsidriverRole0277DBC2": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRoleWithWebIdentity",
+              "Condition": {
+                "StringEquals": {
+                  "Fn::GetAtt": [
+                    "AirflowEKSawsefscsidriverConditionJsonD8DD3DBE",
+                    "Value"
+                  ]
+                }
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Federated": {
+                  "Ref": "AirflowEKSOpenIdConnectProvider52B4CA29"
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/awsefscsidriver/Role/Resource"
+      }
+    },
+    "AirflowEKSawsefscsidriverRoleDefaultPolicy25D22656": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "elasticfilesystem:DescribeAccessPoints",
+                "elasticfilesystem:DescribeFileSystems"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "elasticfilesystem:CreateAccessPoint",
+              "Condition": {
+                "StringLike": {
+                  "aws:RequestTag/efs.csi.aws.com/cluster": "true"
+                }
+              },
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "elasticfilesystem:DeleteAccessPoint",
+              "Condition": {
+                "StringEquals": {
+                  "aws:ResourceTag/efs.csi.aws.com/cluster": "true"
+                }
+              },
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "AirflowEKSawsefscsidriverRoleDefaultPolicy25D22656",
+        "Roles": [
+          {
+            "Ref": "AirflowEKSawsefscsidriverRole0277DBC2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/awsefscsidriver/Role/DefaultPolicy/Resource"
+      }
+    },
+    "AirflowEKSawsefscsidrivermanifestawsefscsidriverServiceAccountResourceE54C45E8": {
+      "Type": "Custom::AWSCDK-EKS-KubernetesResource",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
+            "Outputs.airflowdevopswldeksawscdkawseksKubectlProviderframeworkonEvent20A77165Arn"
+          ]
+        },
+        "Manifest": {
+          "Fn::Join": [
+            "",
+            [
+              "[{\"apiVersion\":\"v1\",\"kind\":\"ServiceAccount\",\"metadata\":{\"name\":\"awsefscsidriver\",\"namespace\":\"kube-system\",\"labels\":{\"aws.cdk.eks/prune-c84066bfc3c13a1073d8ce7af6a37f199cb6943572\":\"\",\"app.kubernetes.io/name\":\"awsefscsidriver\"},\"annotations\":{\"eks.amazonaws.com/role-arn\":\"",
+              {
+                "Fn::GetAtt": [
+                  "AirflowEKSawsefscsidriverRole0277DBC2",
+                  "Arn"
+                ]
+              },
+              "\"}}}]"
+            ]
+          ]
+        },
+        "ClusterName": {
+          "Ref": "AirflowEKS9392A036"
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "AirflowEKSCreationRole11138011",
+            "Arn"
+          ]
+        },
+        "PruneLabel": "aws.cdk.eks/prune-c84066bfc3c13a1073d8ce7af6a37f199cb6943572"
+      },
+      "DependsOn": [
+        "AirflowEKSKubectlReadyBarrier955CB8BA"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/awsefscsidriver/manifest-awsefscsidriverServiceAccountResource/Resource/Default"
+      }
+    },
+    "AirflowEKSchartawsefscsidriver3FA28130": {
+      "Type": "Custom::AWSCDK-EKS-HelmChart",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
+            "Outputs.airflowdevopswldeksawscdkawseksKubectlProviderframeworkonEvent20A77165Arn"
+          ]
+        },
+        "ClusterName": {
+          "Ref": "AirflowEKS9392A036"
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "AirflowEKSCreationRole11138011",
+            "Arn"
+          ]
+        },
+        "Release": "awsefscsidriver",
+        "Chart": "aws-efs-csi-driver",
+        "Version": "2.2.3",
+        "Values": "{\"controller\":{\"serviceAccount\":{\"create\":false,\"name\":\"awsefscsidriver\"},\"deleteAccessPointRootDir\":true},\"node\":{\"serviceAccount\":{\"create\":false,\"name\":\"awsefscsidriver\"}}}",
+        "Namespace": "kube-system",
+        "Repository": "https://kubernetes-sigs.github.io/aws-efs-csi-driver/",
+        "CreateNamespace": true
+      },
+      "DependsOn": [
+        "AirflowEKSawsefscsidriverConditionJsonD8DD3DBE",
+        "AirflowEKSawsefscsidrivermanifestawsefscsidriverServiceAccountResourceE54C45E8",
+        "AirflowEKSawsefscsidriverRoleDefaultPolicy25D22656",
+        "AirflowEKSawsefscsidriverRole0277DBC2",
+        "AirflowEKSKubectlReadyBarrier955CB8BA"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/chart-aws-efs-csi-driver/Resource/Default"
+      }
+    },
+    "AirflowEKSmanifestEFSCSIStorageClass06B85F36": {
+      "Type": "Custom::AWSCDK-EKS-KubernetesResource",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
+            "Outputs.airflowdevopswldeksawscdkawseksKubectlProviderframeworkonEvent20A77165Arn"
+          ]
+        },
+        "Manifest": {
+          "Fn::Join": [
+            "",
+            [
+              "[{\"kind\":\"StorageClass\",\"apiVersion\":\"storage.k8s.io/v1\",\"metadata\":{\"name\":\"efs\",\"labels\":{\"aws.cdk.eks/prune-c8a7b60d011c7f1fa2285d2740088e852cac2e238a\":\"\"}},\"provisioner\":\"efs.csi.aws.com\",\"parameters\":{\"provisioningMode\":\"efs-ap\",\"fileSystemId\":\"",
+              {
+                "Ref": "EFSFilesystem073A610A"
+              },
+              "\",\"directoryPerms\":\"700\",\"gidRangeStart\":\"1000\",\"gidRangeEnd\":\"2000\",\"basePath\":\"/dynamic_provisioning\"}}]"
+            ]
+          ]
+        },
+        "ClusterName": {
+          "Ref": "AirflowEKS9392A036"
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "AirflowEKSCreationRole11138011",
+            "Arn"
+          ]
+        },
+        "PruneLabel": "aws.cdk.eks/prune-c8a7b60d011c7f1fa2285d2740088e852cac2e238a"
+      },
+      "DependsOn": [
+        "AirflowEKSchartawsefscsidriver3FA28130",
+        "AirflowEKSKubectlReadyBarrier955CB8BA"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/manifest-EFSCSIStorageClass/Resource/Default"
+      }
+    },
+    "AirflowEKScharteksairflowcluster0E72296D": {
+      "Type": "Custom::AWSCDK-EKS-HelmChart",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
+            "Outputs.airflowdevopswldeksawscdkawseksKubectlProviderframeworkonEvent20A77165Arn"
+          ]
+        },
+        "ClusterName": {
+          "Ref": "AirflowEKS9392A036"
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "AirflowEKSCreationRole11138011",
+            "Arn"
+          ]
+        },
+        "Release": "eks-airflow-cluster",
+        "Chart": "airflow",
+        "Version": "8.6.0",
+        "Values": "{\"airflow\":{\"legacyCommands\":false,\"image\":{\"repository\":\"704533066374.dkr.ecr.us-east-2.amazonaws.com/airflow\",\"tag\":\"1.0.26\",\"pullPolicy\":\"IfNotPresent\"},\"executor\":\"CeleryExecutor\",\"config\":{\"AIRFLOW__WEBSERVER__EXPOSE_CONFIG\":\"False\",\"AIRFLOW__CORE__LOAD_EXAMPLES\":\"False\",\"AIRFLOW__CORE__PLUGINS_FOLDER\":\"/opt/airflow/dags/repo/plugins\"},\"users\":[{\"username\":\"devops\",\"password\":\"${ADMIN_PASSWORD}\",\"role\":\"Admin\",\"email\":\"ricsue@amazon.co.uk\",\"firstName\":\"Devops\",\"lastName\":\"World\"}],\"usersTemplates\":{\"ADMIN_PASSWORD\":{\"kind\":\"secret\",\"name\":\"airflow-users-secret\",\"key\":\"adminpassword\"}},\"usersUpdate\":true,\"connections\":[],\"variables\":[],\"pools\":[],\"extraPipPackages\":[],\"extraEnv\":[{\"name\":\"AIRFLOW__CORE__FERNET_KEY\",\"valueFrom\":{\"secretKeyRef\":{\"name\":\"airflow-core-secret\",\"key\":\"fernet\"}}},{\"name\":\"AIRFLOW__WEBSERVER__SECRET_KEY\",\"valueFrom\":{\"secretKeyRef\":{\"name\":\"airflow-core-secret\",\"key\":\"webkey\"}}}],\"extraVolumeMounts\":[],\"extraVolumes\":[]},\"scheduler\":{\"replicas\":1,\"resources\":{},\"logCleanup\":{\"enabled\":false,\"retentionMinutes\":21600},\"livenessProbe\":{\"enabled\":true,\"taskCreationCheck\":{\"enabled\":false,\"thresholdSeconds\":300,\"schedulerAgeBeforeCheck\":180}}},\"web\":{\"replicas\":1,\"resources\":{},\"service\":{\"type\":\"ClusterIP\",\"externalPort\":8080},\"webserverConfig\":{\"stringOverride\":\"from airflow import configuration as conf\\nfrom flask_appbuilder.security.manager import AUTH_DB\\n\\n# the SQLAlchemy connection string\\nSQLALCHEMY_DATABASE_URI = conf.get(\\\"core\\\", \\\"SQL_ALCHEMY_CONN\\\")\\n\\n# use embedded DB for auth\\nAUTH_TYPE = AUTH_DB\\n\",\"existingSecret\":\"\"}},\"workers\":{\"enabled\":true,\"replicas\":1,\"resources\":{},\"logCleanup\":{\"enabled\":false,\"retentionMinutes\":21600}},\"triggerer\":{\"enabled\":false,\"replicas\":1,\"resources\":{},\"capacity\":1000},\"flower\":{\"enabled\":true,\"replicas\":1,\"resources\":{},\"service\":{\"type\":\"ClusterIP\",\"externalPort\":5555}},\"logs\":{\"path\":\"/opt/airflow/efs/logs\",\"persistence\":{\"enabled\":true,\"subPath\":\"\",\"storageClass\":\"efs\",\"accessMode\":\"ReadWriteMany\",\"size\":\"1Gi\"}},\"dags\":{\"path\":\"/opt/airflow/dags\",\"persistence\":{\"enabled\":false},\"gitSync\":{\"enabled\":true,\"repo\":\"https://git-codecommit.eu-west-3.amazonaws.com/v1/repos/airflow-dags-cicd-demo\",\"branch\":\"main\",\"revision\":\"HEAD\",\"repoSubPath\":\"dags\",\"syncWait\":60,\"httpSecret\":\"airflow-http-codecommit-secret\",\"httpSecretUsernameKey\":\"username\",\"httpSecretPasswordKey\":\"password\"}},\"ingress\":{\"enabled\":true},\"serviceAccount\":{\"create\":true,\"name\":\"\",\"annotations\":{}},\"extraManifests\":[],\"pgbouncer\":{\"enabled\":true,\"resources\":{},\"authType\":\"md5\"},\"postgresql\":{\"enabled\":true,\"persistence\":{\"enabled\":true,\"storageClass\":\"\",\"size\":\"8Gi\"}},\"externalDatabase\":{\"type\":\"postgres\"},\"redis\":{\"enabled\":true,\"cluster\":{\"enabled\":false,\"slaveCount\":1},\"master\":{\"resources\":{},\"persistence\":{\"enabled\":false,\"storageClass\":\"\",\"size\":\"8Gi\"}},\"slave\":{\"resources\":{},\"persistence\":{\"enabled\":false,\"storageClass\":\"\",\"size\":\"8Gi\"}}},\"externalRedis\":{\"host\":\"localhost\"}}",
+        "Namespace": "eks-airflow-cluster",
+        "Repository": "https://airflow-helm.github.io/charts",
+        "CreateNamespace": true
+      },
+      "DependsOn": [
+        "AirflowEKSKubectlReadyBarrier955CB8BA"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/chart-eks-airflow-cluster/Resource/Default"
+      }
+    },
+    "AirflowEKSmanifesteksairflowcluster0145B5E9": {
+      "Type": "Custom::AWSCDK-EKS-KubernetesResource",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
+            "Outputs.airflowdevopswldeksawscdkawseksKubectlProviderframeworkonEvent20A77165Arn"
+          ]
+        },
+        "Manifest": {
+          "Fn::Join": [
+            "",
+            [
+              "[{\"apiVersion\":\"networking.k8s.io/v1\",\"kind\":\"Ingress\",\"metadata\":{\"namespace\":\"eks-airflow-cluster\",\"name\":\"eks-airflow-cluster\",\"annotations\":{\"alb.ingress.kubernetes.io/scheme\":\"internet-facing\",\"alb.ingress.kubernetes.io/target-type\":\"ip\",\"alb.ingress.kubernetes.io/certificate-arn\":\"",
+              {
+                "Fn::ImportValue": "airflow-devopswld-s3:ExportsOutputRefALBAirflowEKSCertificateE9D75EA683FE3D05"
+              },
+              "\",\"alb.ingress.kubernetes.io/listen-ports\":\"[{\\\"HTTP\\\": 80} , {\\\"HTTPS\\\": 443}]\",\"external-dns.alpha.kubernetes.io/hostname\":\"airflow-eks.beachkube.co.uk\",\"alb.ingress.kubernetes.io/actions.ssl-redirect\":\"{ \\\"Type\\\" : \\\"redirect\\\", \\\"RedirectConfig\\\": { \\\"Protocol\\\": \\\"HTTPS\\\", \\\"Port\\\": \\\"443\\\", \\\"StatusCode\\\": \\\"HTTP_301\\\"}\",\"alb.ingress.kubernetes.io/ssl-redirect\":\"443\"},\"labels\":{\"aws.cdk.eks/prune-c844d0ebc1188beca4808362f62d877a838b93fc87\":\"\"}},\"spec\":{\"ingressClassName\":\"alb\",\"rules\":[{\"http\":{\"paths\":[{\"path\":\"/\",\"pathType\":\"Prefix\",\"backend\":{\"service\":{\"name\":\"eks-airflow-cluster-web\",\"port\":{\"number\":8080}}}}]}}]}}]"
+            ]
+          ]
+        },
+        "ClusterName": {
+          "Ref": "AirflowEKS9392A036"
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "AirflowEKSCreationRole11138011",
+            "Arn"
+          ]
+        },
+        "PruneLabel": "aws.cdk.eks/prune-c844d0ebc1188beca4808362f62d877a838b93fc87"
+      },
+      "DependsOn": [
+        "AirflowEKSKubectlReadyBarrier955CB8BA"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/manifest-eks-airflow-cluster/Resource/Default"
+      }
+    },
+    "AirflowEKSeksairflowclusterLoadBalancerAddressC00AAC0E": {
+      "Type": "Custom::AWSCDK-EKS-KubernetesObjectValue",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
+            "Outputs.airflowdevopswldeksawscdkawseksKubectlProviderframeworkonEvent20A77165Arn"
+          ]
+        },
+        "ClusterName": {
+          "Ref": "AirflowEKS9392A036"
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "AirflowEKSCreationRole11138011",
+            "Arn"
+          ]
+        },
+        "ObjectType": "ingress",
+        "ObjectName": "eks-airflow-cluster",
+        "ObjectNamespace": "eks-airflow-cluster",
+        "JsonPath": ".status.loadBalancer.ingress[0].hostname",
+        "TimeoutSeconds": 300
+      },
+      "DependsOn": [
+        "AirflowEKSKubectlReadyBarrier955CB8BA"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Airflow-EKS/eks-airflow-clusterLoadBalancerAddress/Resource/Default"
+      }
+    },
+    "awscdkawseksClusterResourceProviderNestedStackawscdkawseksClusterResourceProviderNestedStackResource9827C454": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
+            "",
+            [
+              "https://s3.us-east-2.",
+              {
+                "Ref": "AWS::URLSuffix"
+              },
+              "/cdk-hnb659fds-assets-704533066374-us-east-2/0169d56d57a7011012c8ba3f3097b3cb4e7640f8d1ca9ec231211afc6fe88c76.json"
+            ]
+          ]
+        },
+        "Parameters": {
+          "referencetoairflowdevopswldeksAirflowEKSCreationRole4F54B597Arn": {
+            "Fn::GetAtt": [
+              "AirflowEKSCreationRole11138011",
+              "Arn"
+            ]
+          }
+        }
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/@aws-cdk--aws-eks.ClusterResourceProvider.NestedStack/@aws-cdk--aws-eks.ClusterResourceProvider.NestedStackResource",
+        "aws:asset:path": "airflowdevopswldeksawscdkawseksClusterResourceProvider7B81F07F.nested.template.json",
+        "aws:asset:property": "TemplateURL"
+      }
+    },
+    "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
+            "",
+            [
+              "https://s3.us-east-2.",
+              {
+                "Ref": "AWS::URLSuffix"
+              },
+              "/cdk-hnb659fds-assets-704533066374-us-east-2/b5d80cc44a7283be241e5b3f217490ee3f3908209c794178958ec4bde662cb4a.json"
+            ]
+          ]
+        },
+        "Parameters": {
+          "referencetoairflowdevopswldeksAirflowEKS48498FCAArn": {
+            "Fn::GetAtt": [
+              "AirflowEKS9392A036",
+              "Arn"
+            ]
+          },
+          "referencetoairflowdevopswldeksAirflowEKSCreationRole4F54B597Arn": {
+            "Fn::GetAtt": [
+              "AirflowEKSCreationRole11138011",
+              "Arn"
+            ]
+          },
+          "referencetoairflowdevopswldeksAirflowEKS48498FCAClusterSecurityGroupId": {
+            "Fn::GetAtt": [
+              "AirflowEKS9392A036",
+              "ClusterSecurityGroupId"
+            ]
+          }
+        }
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/@aws-cdk--aws-eks.KubectlProvider.NestedStack/@aws-cdk--aws-eks.KubectlProvider.NestedStackResource",
+        "aws:asset:path": "airflowdevopswldeksawscdkawseksKubectlProvider7A9317AC.nested.template.json",
+        "aws:asset:property": "TemplateURL"
+      }
+    },
+    "CustomAWSCDKOpenIdConnectProviderCustomResourceProviderRole517FED65": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+          }
+        ],
+        "Policies": [
+          {
+            "PolicyName": "Inline",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Resource": "*",
+                  "Action": [
+                    "iam:CreateOpenIDConnectProvider",
+                    "iam:DeleteOpenIDConnectProvider",
+                    "iam:UpdateOpenIDConnectProviderThumbprint",
+                    "iam:AddClientIDToOpenIDConnectProvider",
+                    "iam:RemoveClientIDFromOpenIDConnectProvider"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Custom::AWSCDKOpenIdConnectProviderCustomResourceProvider/Role"
+      }
+    },
+    "CustomAWSCDKOpenIdConnectProviderCustomResourceProviderHandlerF2C543E0": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-704533066374-us-east-2",
+          "S3Key": "ff8d00f9cedcafaf1ab299446ed2500b61b0b88ab40f066d05b26ff66bd58b15.zip"
+        },
+        "Timeout": 900,
+        "MemorySize": 128,
+        "Handler": "__entrypoint__.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "CustomAWSCDKOpenIdConnectProviderCustomResourceProviderRole517FED65",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x"
+      },
+      "DependsOn": [
+        "CustomAWSCDKOpenIdConnectProviderCustomResourceProviderRole517FED65"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/Custom::AWSCDKOpenIdConnectProviderCustomResourceProvider/Handler",
+        "aws:asset:path": "asset.ff8d00f9cedcafaf1ab299446ed2500b61b0b88ab40f066d05b26ff66bd58b15",
+        "aws:asset:property": "Code"
+      }
+    },
+    "AWSCDKCfnUtilsProviderCustomResourceProviderRoleFE0EE867": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/AWSCDKCfnUtilsProviderCustomResourceProvider/Role"
+      }
+    },
+    "AWSCDKCfnUtilsProviderCustomResourceProviderHandlerCF82AA57": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-704533066374-us-east-2",
+          "S3Key": "43079f879513e0d85eeb42ddfe71e5ead66edf1ee02c33bb165d7c2f926030c4.zip"
+        },
+        "Timeout": 900,
+        "MemorySize": 128,
+        "Handler": "__entrypoint__.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AWSCDKCfnUtilsProviderCustomResourceProviderRoleFE0EE867",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x"
+      },
+      "DependsOn": [
+        "AWSCDKCfnUtilsProviderCustomResourceProviderRoleFE0EE867"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/AWSCDKCfnUtilsProviderCustomResourceProvider/Handler",
+        "aws:asset:path": "asset.43079f879513e0d85eeb42ddfe71e5ead66edf1ee02c33bb165d7c2f926030c4",
+        "aws:asset:property": "Code"
+      }
+    },
+    "awslbcontrollerpolicy0EC97B4B": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "iam:CreateServiceLinkedRole",
+                "ec2:DescribeAccountAttributes",
+                "ec2:DescribeAddresses",
+                "ec2:DescribeAvailabilityZones",
+                "ec2:DescribeInternetGateways",
+                "ec2:DescribeVpcs",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeInstances",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeTags",
+                "ec2:GetCoipPoolUsage",
+                "ec2:DescribeCoipPools",
+                "elasticloadbalancing:DescribeLoadBalancers",
+                "elasticloadbalancing:DescribeLoadBalancerAttributes",
+                "elasticloadbalancing:DescribeListeners",
+                "elasticloadbalancing:DescribeListenerCertificates",
+                "elasticloadbalancing:DescribeSSLPolicies",
+                "elasticloadbalancing:DescribeRules",
+                "elasticloadbalancing:DescribeTargetGroups",
+                "elasticloadbalancing:DescribeTargetGroupAttributes",
+                "elasticloadbalancing:DescribeTargetHealth",
+                "elasticloadbalancing:DescribeTags"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "cognito-idp:DescribeUserPoolClient",
+                "acm:ListCertificates",
+                "acm:DescribeCertificate",
+                "iam:ListServerCertificates",
+                "iam:GetServerCertificate",
+                "waf-regional:GetWebACL",
+                "waf-regional:GetWebACLForResource",
+                "waf-regional:AssociateWebACL",
+                "waf-regional:DisassociateWebACL",
+                "wafv2:GetWebACL",
+                "wafv2:GetWebACLForResource",
+                "wafv2:AssociateWebACL",
+                "wafv2:DisassociateWebACL",
+                "shield:GetSubscriptionState",
+                "shield:DescribeProtection",
+                "shield:CreateProtection",
+                "shield:DeleteProtection"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:RevokeSecurityGroupIngress"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "ec2:CreateSecurityGroup",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "ec2:CreateTags",
+              "Condition": {
+                "StringEquals": {
+                  "ec2:CreateAction": "CreateSecurityGroup"
+                },
+                "Null": {
+                  "aws:RequestTag/elbv2.k8s.aws/cluster": "false"
+                }
+              },
+              "Effect": "Allow",
+              "Resource": "arn:aws:ec2:*:*:security-group/*"
+            },
+            {
+              "Action": [
+                "ec2:CreateTags",
+                "ec2:DeleteTags"
+              ],
+              "Condition": {
+                "Null": {
+                  "aws:RequestTag/elbv2.k8s.aws/cluster": "true",
+                  "aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
+                }
+              },
+              "Effect": "Allow",
+              "Resource": "arn:aws:ec2:*:*:security-group/*"
+            },
+            {
+              "Action": [
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:RevokeSecurityGroupIngress",
+                "ec2:DeleteSecurityGroup"
+              ],
+              "Condition": {
+                "Null": {
+                  "aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
+                }
+              },
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "elasticloadbalancing:CreateLoadBalancer",
+                "elasticloadbalancing:CreateTargetGroup"
+              ],
+              "Condition": {
+                "Null": {
+                  "aws:RequestTag/elbv2.k8s.aws/cluster": "false"
+                }
+              },
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "elasticloadbalancing:CreateListener",
+                "elasticloadbalancing:DeleteListener",
+                "elasticloadbalancing:CreateRule",
+                "elasticloadbalancing:DeleteRule"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "elasticloadbalancing:AddTags",
+                "elasticloadbalancing:RemoveTags"
+              ],
+              "Condition": {
+                "Null": {
+                  "aws:RequestTag/elbv2.k8s.aws/cluster": "true",
+                  "aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
+                }
+              },
+              "Effect": "Allow",
+              "Resource": [
+                "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+                "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+                "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*"
+              ]
+            },
+            {
+              "Action": [
+                "elasticloadbalancing:AddTags",
+                "elasticloadbalancing:RemoveTags"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                "arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*",
+                "arn:aws:elasticloadbalancing:*:*:listener/app/*/*/*",
+                "arn:aws:elasticloadbalancing:*:*:listener-rule/net/*/*/*",
+                "arn:aws:elasticloadbalancing:*:*:listener-rule/app/*/*/*"
+              ]
+            },
+            {
+              "Action": [
+                "elasticloadbalancing:ModifyLoadBalancerAttributes",
+                "elasticloadbalancing:SetIpAddressType",
+                "elasticloadbalancing:SetSecurityGroups",
+                "elasticloadbalancing:SetSubnets",
+                "elasticloadbalancing:DeleteLoadBalancer",
+                "elasticloadbalancing:ModifyTargetGroup",
+                "elasticloadbalancing:ModifyTargetGroupAttributes",
+                "elasticloadbalancing:DeleteTargetGroup"
+              ],
+              "Condition": {
+                "Null": {
+                  "aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
+                }
+              },
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "elasticloadbalancing:RegisterTargets",
+                "elasticloadbalancing:DeregisterTargets"
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"
+            },
+            {
+              "Action": [
+                "elasticloadbalancing:SetWebAcl",
+                "elasticloadbalancing:ModifyListener",
+                "elasticloadbalancing:AddListenerCertificates",
+                "elasticloadbalancing:RemoveListenerCertificates",
+                "elasticloadbalancing:ModifyRule"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "awslbcontrollerpolicy0EC97B4B",
+        "Roles": [
+          {
+            "Ref": "AirflowEKSawsloadbalancercontrollerRoleB0AFDB94"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/awslbcontrollerpolicy/Resource"
+      }
+    },
+    "EFSSecurityGroupE0A75964": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "airflow-devopswld-eks/EFSSecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1"
+          }
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "airflow-devopswld-vpc:ExportsOutputRefEKSDevOpsWldApacheAirflowVPC475066EEF6BA0C3F"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/EFSSecurityGroup/Resource"
+      }
+    },
+    "EFSSecurityGroupfromairflowdevopswldeksAirflowEKSClusterSecurityGroup26ADB65C204905E22EF3": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "IpProtocol": "tcp",
+        "Description": "from airflowdevopswldeksAirflowEKSClusterSecurityGroup26ADB65C:2049",
+        "FromPort": 2049,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "EFSSecurityGroupE0A75964",
+            "GroupId"
+          ]
+        },
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "AirflowEKS9392A036",
+            "ClusterSecurityGroupId"
+          ]
+        },
+        "ToPort": 2049
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/EFSSecurityGroup/from airflowdevopswldeksAirflowEKSClusterSecurityGroup26ADB65C:2049"
+      }
+    },
+    "EFSFilesystem073A610A": {
+      "Type": "AWS::EFS::FileSystem",
+      "Properties": {
+        "Encrypted": true,
+        "FileSystemTags": [
+          {
+            "Key": "Name",
+            "Value": "airflow-devopswld-eks/EFSFilesystem"
+          }
+        ]
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/EFSFilesystem/Resource"
+      }
+    },
+    "EFSFilesystemEfsMountTarget12DFB81FE": {
+      "Type": "AWS::EFS::MountTarget",
+      "Properties": {
+        "FileSystemId": {
+          "Ref": "EFSFilesystem073A610A"
+        },
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "EFSSecurityGroupE0A75964",
+              "GroupId"
+            ]
+          }
+        ],
+        "SubnetId": {
+          "Fn::ImportValue": "airflow-devopswld-vpc:ExportsOutputRefEKSDevOpsWldApacheAirflowVPCprivateSubnet1Subnet6E02F18F4D76C6CC"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/EFSFilesystem/EfsMountTarget1"
+      }
+    },
+    "EFSFilesystemEfsMountTarget2C29A93E1": {
+      "Type": "AWS::EFS::MountTarget",
+      "Properties": {
+        "FileSystemId": {
+          "Ref": "EFSFilesystem073A610A"
+        },
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "EFSSecurityGroupE0A75964",
+              "GroupId"
+            ]
+          }
+        ],
+        "SubnetId": {
+          "Fn::ImportValue": "airflow-devopswld-vpc:ExportsOutputRefEKSDevOpsWldApacheAirflowVPCprivateSubnet2SubnetDEB426E451D1AE9C"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/EFSFilesystem/EfsMountTarget2"
+      }
+    },
+    "CNAMEC70A2D52": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "Name": "airflow-eks.beachkube.co.uk.",
+        "Type": "CNAME",
+        "HostedZoneId": "Z09188781ZYEUVQVBKPJ7",
+        "ResourceRecords": [
+          {
+            "Fn::GetAtt": [
+              "AirflowEKSeksairflowclusterLoadBalancerAddressC00AAC0E",
+              "Value"
+            ]
+          }
+        ],
+        "TTL": "1800"
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/CNAME/Resource"
+      }
+    },
+    "CDKMetadata": {
+      "Type": "AWS::CDK::Metadata",
+      "Properties": {
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/31QwW7CMAz9Fu4hm0BIu1aVtrGJFbXTrlNI3RJIkyp2QFXVf59bxAaXnfxsvWc/v4VcyMeZOuNcl8e5NTvZF6T0UfDouzeqkX3uLYi0clPdemt0N7YXNAg4ouxTG5EgiOSMSaS9eI87CA4IcKOcqQBJfPgS6uBjO4r/mgLCyWhItPbRkchacOsy9c6Bpm3wJ1Py2lewTbpXgW4WZ7sDU76UjcAm9IKNg47BUPdyvfL/YO3qAIgsrviDZ2Oh6PiJZiTed5vR2qcKNdAgWEqwWvLPTjWQg/ahnOKZUMGUQaSchm9yQB+DvoR3xbfDLFIbaURv6N1kcMr+Xv6bQoIIxIzauHoQ24723j0s5ZNczQ5ozDywS9OAzC/1B0FGJwPbAQAA"
+      },
+      "Metadata": {
+        "aws:cdk:path": "airflow-devopswld-eks/CDKMetadata/Default"
+      }
+    }
+  },
+  "Outputs": {
+    "AirflowEKSConfigCommand46D53F40": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "aws eks update-kubeconfig --name ",
+            {
+              "Ref": "AirflowEKS9392A036"
+            },
+            " --region us-east-2 --role-arn ",
+            {
+              "Fn::GetAtt": [
+                "ClusterAdminRole047D4FCA",
+                "Arn"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    "AirflowEKSGetTokenCommand680E1252": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "aws eks get-token --cluster-name ",
+            {
+              "Ref": "AirflowEKS9392A036"
+            },
+            " --region us-east-2 --role-arn ",
+            {
+              "Fn::GetAtt": [
+                "ClusterAdminRole047D4FCA",
+                "Arn"
+              ]
+            }
+          ]
+        ]
+      }
+    },
+    "AirflowLoginCommand": {
+      "Value": "kubectl port-forward --namespace eks-airflow-cluster $(kubectl get pods --namespace eks-airflow-cluster -l \"component=web,app=airflow\" -o jsonpath=\"{.items[0].metadata.name}\") 8080:8080"
+    },
+    "EKSClusterName": {
+      "Description": "The name of the EKS Cluster",
+      "Value": {
+        "Ref": "AirflowEKS9392A036"
+      },
+      "Export": {
+        "Name": "EKSClusterName"
+      }
+    },
+    "EKSClusterOIDCProviderARN": {
+      "Description": "The EKS Cluster's OIDC Provider ARN",
+      "Value": {
+        "Ref": "AirflowEKSOpenIdConnectProvider52B4CA29"
+      },
+      "Export": {
+        "Name": "EKSClusterOIDCProviderARN"
+      }
+    },
+    "EKSClusterKubectlRoleARN": {
+      "Description": "The EKS Cluster's kubectl Role ARN",
+      "Value": {
+        "Fn::GetAtt": [
+          "AirflowEKSCreationRole11138011",
+          "Arn"
+        ]
+      },
+      "Export": {
+        "Name": "EKSClusterKubectlRoleARN"
+      }
+    },
+    "EKSSGID": {
+      "Description": "The EKS Cluster's kubectl SG ID",
+      "Value": {
+        "Fn::GetAtt": [
+          "AirflowEKS9392A036",
+          "ClusterSecurityGroupId"
+        ]
+      },
+      "Export": {
+        "Name": "EKSSGID"
+      }
+    }
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Type": "AWS::SSM::Parameter::Value<String>",
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+    }
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                  ],
+                  {
+                    "Ref": "BootstrapVersion"
+                  }
+                ]
+              }
+            ]
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+        }
+      ]
+    }
+  }
+}

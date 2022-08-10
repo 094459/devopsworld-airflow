@@ -1,0 +1,2432 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.1.28"
+        }
+      },
+      "mwaa-devopswld-backend": {
+        "id": "mwaa-devopswld-backend",
+        "path": "mwaa-devopswld-backend",
+        "children": {
+          "MWAA-DevOpsWld-ApacheAirflow-VPC": {
+            "id": "MWAA-DevOpsWld-ApacheAirflow-VPC",
+            "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::VPC",
+                  "aws:cdk:cloudformation:props": {
+                    "cidrBlock": "10.192.0.0/16",
+                    "enableDnsHostnames": true,
+                    "enableDnsSupport": true,
+                    "instanceTenancy": "default",
+                    "tags": [
+                      {
+                        "key": "Name",
+                        "value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC"
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnVPC",
+                  "version": "2.2.0"
+                }
+              },
+              "publicSubnet1": {
+                "id": "publicSubnet1",
+                "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1",
+                "children": {
+                  "Subnet": {
+                    "id": "Subnet",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/Subnet",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
+                      "aws:cdk:cloudformation:props": {
+                        "cidrBlock": "10.192.0.0/24",
+                        "vpcId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+                        },
+                        "availabilityZone": "us-east-2a",
+                        "mapPublicIpOnLaunch": true,
+                        "tags": [
+                          {
+                            "key": "aws-cdk:subnet-name",
+                            "value": "public"
+                          },
+                          {
+                            "key": "aws-cdk:subnet-type",
+                            "value": "Public"
+                          },
+                          {
+                            "key": "Name",
+                            "value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnet",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "Acl": {
+                    "id": "Acl",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/Acl",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "RouteTable": {
+                    "id": "RouteTable",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/RouteTable",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
+                      "aws:cdk:cloudformation:props": {
+                        "vpcId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+                        },
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnRouteTable",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "RouteTableAssociation": {
+                    "id": "RouteTableAssociation",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/RouteTableAssociation",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
+                      "aws:cdk:cloudformation:props": {
+                        "routeTableId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1RouteTable52796DC5"
+                        },
+                        "subnetId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1SubnetE4746FA9"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "DefaultRoute": {
+                    "id": "DefaultRoute",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/DefaultRoute",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "routeTableId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1RouteTable52796DC5"
+                        },
+                        "destinationCidrBlock": "0.0.0.0/0",
+                        "gatewayId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCIGW7B4098AC"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnRoute",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "EIP": {
+                    "id": "EIP",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/EIP",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::EIP",
+                      "aws:cdk:cloudformation:props": {
+                        "domain": "vpc",
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnEIP",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "NATGateway": {
+                    "id": "NATGateway",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/NATGateway",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::NatGateway",
+                      "aws:cdk:cloudformation:props": {
+                        "subnetId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1SubnetE4746FA9"
+                        },
+                        "allocationId": {
+                          "Fn::GetAtt": [
+                            "MWAADevOpsWldApacheAirflowVPCpublicSubnet1EIP4D3CB7B1",
+                            "AllocationId"
+                          ]
+                        },
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnNatGateway",
+                      "version": "2.2.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.PublicSubnet",
+                  "version": "2.2.0"
+                }
+              },
+              "publicSubnet2": {
+                "id": "publicSubnet2",
+                "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2",
+                "children": {
+                  "Subnet": {
+                    "id": "Subnet",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2/Subnet",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
+                      "aws:cdk:cloudformation:props": {
+                        "cidrBlock": "10.192.1.0/24",
+                        "vpcId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+                        },
+                        "availabilityZone": "us-east-2b",
+                        "mapPublicIpOnLaunch": true,
+                        "tags": [
+                          {
+                            "key": "aws-cdk:subnet-name",
+                            "value": "public"
+                          },
+                          {
+                            "key": "aws-cdk:subnet-type",
+                            "value": "Public"
+                          },
+                          {
+                            "key": "Name",
+                            "value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnet",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "Acl": {
+                    "id": "Acl",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2/Acl",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "RouteTable": {
+                    "id": "RouteTable",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2/RouteTable",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
+                      "aws:cdk:cloudformation:props": {
+                        "vpcId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+                        },
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnRouteTable",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "RouteTableAssociation": {
+                    "id": "RouteTableAssociation",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2/RouteTableAssociation",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
+                      "aws:cdk:cloudformation:props": {
+                        "routeTableId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet2RouteTableB0EF0A11"
+                        },
+                        "subnetId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet2Subnet1D5ECA00"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "DefaultRoute": {
+                    "id": "DefaultRoute",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2/DefaultRoute",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "routeTableId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet2RouteTableB0EF0A11"
+                        },
+                        "destinationCidrBlock": "0.0.0.0/0",
+                        "gatewayId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCIGW7B4098AC"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnRoute",
+                      "version": "2.2.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.PublicSubnet",
+                  "version": "2.2.0"
+                }
+              },
+              "privateSubnet1": {
+                "id": "privateSubnet1",
+                "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1",
+                "children": {
+                  "Subnet": {
+                    "id": "Subnet",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1/Subnet",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
+                      "aws:cdk:cloudformation:props": {
+                        "cidrBlock": "10.192.2.0/24",
+                        "vpcId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+                        },
+                        "availabilityZone": "us-east-2a",
+                        "mapPublicIpOnLaunch": false,
+                        "tags": [
+                          {
+                            "key": "aws-cdk:subnet-name",
+                            "value": "private"
+                          },
+                          {
+                            "key": "aws-cdk:subnet-type",
+                            "value": "Private"
+                          },
+                          {
+                            "key": "Name",
+                            "value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnet",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "Acl": {
+                    "id": "Acl",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1/Acl",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "RouteTable": {
+                    "id": "RouteTable",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1/RouteTable",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
+                      "aws:cdk:cloudformation:props": {
+                        "vpcId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+                        },
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnRouteTable",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "RouteTableAssociation": {
+                    "id": "RouteTableAssociation",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1/RouteTableAssociation",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
+                      "aws:cdk:cloudformation:props": {
+                        "routeTableId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCprivateSubnet1RouteTable3B90D7A5"
+                        },
+                        "subnetId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCprivateSubnet1Subnet2397E701"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "DefaultRoute": {
+                    "id": "DefaultRoute",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1/DefaultRoute",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "routeTableId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCprivateSubnet1RouteTable3B90D7A5"
+                        },
+                        "destinationCidrBlock": "0.0.0.0/0",
+                        "natGatewayId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1NATGatewayE9268F9C"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnRoute",
+                      "version": "2.2.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.PrivateSubnet",
+                  "version": "2.2.0"
+                }
+              },
+              "privateSubnet2": {
+                "id": "privateSubnet2",
+                "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2",
+                "children": {
+                  "Subnet": {
+                    "id": "Subnet",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2/Subnet",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
+                      "aws:cdk:cloudformation:props": {
+                        "cidrBlock": "10.192.3.0/24",
+                        "vpcId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+                        },
+                        "availabilityZone": "us-east-2b",
+                        "mapPublicIpOnLaunch": false,
+                        "tags": [
+                          {
+                            "key": "aws-cdk:subnet-name",
+                            "value": "private"
+                          },
+                          {
+                            "key": "aws-cdk:subnet-type",
+                            "value": "Private"
+                          },
+                          {
+                            "key": "Name",
+                            "value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnet",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "Acl": {
+                    "id": "Acl",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2/Acl",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "RouteTable": {
+                    "id": "RouteTable",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2/RouteTable",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
+                      "aws:cdk:cloudformation:props": {
+                        "vpcId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+                        },
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnRouteTable",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "RouteTableAssociation": {
+                    "id": "RouteTableAssociation",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2/RouteTableAssociation",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
+                      "aws:cdk:cloudformation:props": {
+                        "routeTableId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCprivateSubnet2RouteTableDA26173E"
+                        },
+                        "subnetId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCprivateSubnet2Subnet6189CFE7"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "DefaultRoute": {
+                    "id": "DefaultRoute",
+                    "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2/DefaultRoute",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "routeTableId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCprivateSubnet2RouteTableDA26173E"
+                        },
+                        "destinationCidrBlock": "0.0.0.0/0",
+                        "natGatewayId": {
+                          "Ref": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1NATGatewayE9268F9C"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnRoute",
+                      "version": "2.2.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.PrivateSubnet",
+                  "version": "2.2.0"
+                }
+              },
+              "IGW": {
+                "id": "IGW",
+                "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/IGW",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::InternetGateway",
+                  "aws:cdk:cloudformation:props": {
+                    "tags": [
+                      {
+                        "key": "Name",
+                        "value": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC"
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnInternetGateway",
+                  "version": "2.2.0"
+                }
+              },
+              "VPCGW": {
+                "id": "VPCGW",
+                "path": "mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/VPCGW",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::VPCGatewayAttachment",
+                  "aws:cdk:cloudformation:props": {
+                    "vpcId": {
+                      "Ref": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+                    },
+                    "internetGatewayId": {
+                      "Ref": "MWAADevOpsWldApacheAirflowVPCIGW7B4098AC"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnVPCGatewayAttachment",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.Vpc",
+              "version": "2.2.0"
+            }
+          },
+          "VPCId": {
+            "id": "VPCId",
+            "path": "mwaa-devopswld-backend/VPCId",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.2.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "mwaa-devopswld-backend/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "mwaa-devopswld-backend/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.28"
+            }
+          },
+          "Exports": {
+            "id": "Exports",
+            "path": "mwaa-devopswld-backend/Exports",
+            "children": {
+              "Output{\"Ref\":\"MWAADevOpsWldApacheAirflowVPC3BD53A14\"}": {
+                "id": "Output{\"Ref\":\"MWAADevOpsWldApacheAirflowVPC3BD53A14\"}",
+                "path": "mwaa-devopswld-backend/Exports/Output{\"Ref\":\"MWAADevOpsWldApacheAirflowVPC3BD53A14\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.2.0"
+                }
+              },
+              "Output{\"Ref\":\"MWAADevOpsWldApacheAirflowVPCprivateSubnet1Subnet2397E701\"}": {
+                "id": "Output{\"Ref\":\"MWAADevOpsWldApacheAirflowVPCprivateSubnet1Subnet2397E701\"}",
+                "path": "mwaa-devopswld-backend/Exports/Output{\"Ref\":\"MWAADevOpsWldApacheAirflowVPCprivateSubnet1Subnet2397E701\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.2.0"
+                }
+              },
+              "Output{\"Ref\":\"MWAADevOpsWldApacheAirflowVPCprivateSubnet2Subnet6189CFE7\"}": {
+                "id": "Output{\"Ref\":\"MWAADevOpsWldApacheAirflowVPCprivateSubnet2Subnet6189CFE7\"}",
+                "path": "mwaa-devopswld-backend/Exports/Output{\"Ref\":\"MWAADevOpsWldApacheAirflowVPCprivateSubnet2Subnet6189CFE7\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.28"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.2.0"
+        }
+      },
+      "mwaa-devopswld-dev-environment": {
+        "id": "mwaa-devopswld-dev-environment",
+        "path": "mwaa-devopswld-dev-environment",
+        "children": {
+          "mwaa-dags": {
+            "id": "mwaa-dags",
+            "path": "mwaa-devopswld-dev-environment/mwaa-dags",
+            "children": {
+              "Notifications": {
+                "id": "Notifications",
+                "path": "mwaa-devopswld-dev-environment/mwaa-dags/Notifications",
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.1.28"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "mwaa-devopswld-dev-environment/mwaa-dags/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "bucketName": "airflow-devopswld-demo-dev",
+                    "publicAccessBlockConfiguration": {
+                      "blockPublicAcls": true,
+                      "blockPublicPolicy": true,
+                      "ignorePublicAcls": true,
+                      "restrictPublicBuckets": true
+                    },
+                    "tags": [
+                      {
+                        "key": "aws-cdk:cr-owned:dags:eb00a8b8",
+                        "value": "true"
+                      },
+                      {
+                        "key": "env",
+                        "value": "airflow-devopswld-demo-dev"
+                      },
+                      {
+                        "key": "service",
+                        "value": "MWAA Apache AirFlow"
+                      }
+                    ],
+                    "versioningConfiguration": {
+                      "status": "Enabled"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_s3.Bucket",
+              "version": "2.2.0"
+            }
+          },
+          "DeployDAG": {
+            "id": "DeployDAG",
+            "path": "mwaa-devopswld-dev-environment/DeployDAG",
+            "children": {
+              "AwsCliLayer": {
+                "id": "AwsCliLayer",
+                "path": "mwaa-devopswld-dev-environment/DeployDAG/AwsCliLayer",
+                "children": {
+                  "Code": {
+                    "id": "Code",
+                    "path": "mwaa-devopswld-dev-environment/DeployDAG/AwsCliLayer/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "mwaa-devopswld-dev-environment/DeployDAG/AwsCliLayer/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.2.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "mwaa-devopswld-dev-environment/DeployDAG/AwsCliLayer/Code/AssetBucket",
+                        "children": {
+                          "Notifications": {
+                            "id": "Notifications",
+                            "path": "mwaa-devopswld-dev-environment/DeployDAG/AwsCliLayer/Code/AssetBucket/Notifications",
+                            "constructInfo": {
+                              "fqn": "constructs.Construct",
+                              "version": "10.1.28"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.2.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "mwaa-devopswld-dev-environment/DeployDAG/AwsCliLayer/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::LayerVersion",
+                      "aws:cdk:cloudformation:props": {
+                        "content": {
+                          "s3Bucket": "cdk-hnb659fds-assets-704533066374-us-east-2",
+                          "s3Key": "e9882ab123687399f934da0d45effe675ecc8ce13b40cb946f3e1d6141fe8d68.zip"
+                        },
+                        "description": "/opt/awscli/aws"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnLayerVersion",
+                      "version": "2.2.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer",
+                  "version": "2.2.0"
+                }
+              },
+              "CustomResourceHandler": {
+                "id": "CustomResourceHandler",
+                "path": "mwaa-devopswld-dev-environment/DeployDAG/CustomResourceHandler",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.SingletonFunction",
+                  "version": "2.2.0"
+                }
+              },
+              "Asset1": {
+                "id": "Asset1",
+                "path": "mwaa-devopswld-dev-environment/DeployDAG/Asset1",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "mwaa-devopswld-dev-environment/DeployDAG/Asset1/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "mwaa-devopswld-dev-environment/DeployDAG/Asset1/AssetBucket",
+                    "children": {
+                      "Notifications": {
+                        "id": "Notifications",
+                        "path": "mwaa-devopswld-dev-environment/DeployDAG/Asset1/AssetBucket/Notifications",
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.1.28"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.2.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.2.0"
+                }
+              },
+              "CustomResource": {
+                "id": "CustomResource",
+                "path": "mwaa-devopswld-dev-environment/DeployDAG/CustomResource",
+                "children": {
+                  "Default": {
+                    "id": "Default",
+                    "path": "mwaa-devopswld-dev-environment/DeployDAG/CustomResource/Default",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnResource",
+                      "version": "2.2.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CustomResource",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_s3_deployment.BucketDeployment",
+              "version": "2.2.0"
+            }
+          },
+          "Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C": {
+            "id": "Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C",
+            "path": "mwaa-devopswld-dev-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "mwaa-devopswld-dev-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "mwaa-devopswld-dev-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "mwaa-devopswld-dev-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "mwaa-devopswld-dev-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "s3:GetObject*",
+                                    "s3:GetBucket*",
+                                    "s3:List*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":s3:::cdk-hnb659fds-assets-704533066374-us-east-2"
+                                        ]
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":s3:::cdk-hnb659fds-assets-704533066374-us-east-2/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "Action": [
+                                    "s3:GetObject*",
+                                    "s3:GetBucket*",
+                                    "s3:List*",
+                                    "s3:DeleteObject*",
+                                    "s3:PutObject",
+                                    "s3:Abort*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "mwaadags537631EF",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          {
+                                            "Fn::GetAtt": [
+                                              "mwaadags537631EF",
+                                              "Arn"
+                                            ]
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+                            "roles": [
+                              {
+                                "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.2.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.2.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.2.0"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "mwaa-devopswld-dev-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "mwaa-devopswld-dev-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "mwaa-devopswld-dev-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code/AssetBucket",
+                    "children": {
+                      "Notifications": {
+                        "id": "Notifications",
+                        "path": "mwaa-devopswld-dev-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code/AssetBucket/Notifications",
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.1.28"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.2.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.2.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "mwaa-devopswld-dev-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": "cdk-hnb659fds-assets-704533066374-us-east-2",
+                      "s3Key": "983c442a2fe823a8b4ebb18d241a5150ae15103dacbf3f038c7c6343e565aa4c.zip"
+                    },
+                    "role": {
+                      "Fn::GetAtt": [
+                        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+                        "Arn"
+                      ]
+                    },
+                    "handler": "index.handler",
+                    "layers": [
+                      {
+                        "Ref": "DeployDAGAwsCliLayer6BE262D5"
+                      }
+                    ],
+                    "runtime": "python3.7",
+                    "timeout": 900
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.2.0"
+            }
+          },
+          "mwaa-service-role": {
+            "id": "mwaa-service-role",
+            "path": "mwaa-devopswld-dev-environment/mwaa-service-role",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "mwaa-devopswld-dev-environment/mwaa-service-role/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": [
+                              "airflow.amazonaws.com",
+                              "airflow-env.amazonaws.com",
+                              "ecs-tasks.amazonaws.com"
+                            ]
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "path": "/service-role/",
+                    "policies": [
+                      {
+                        "policyName": "CDKmwaaPolicyDocument",
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "airflow:PublishMetrics",
+                              "Effect": "Allow",
+                              "Resource": "arn:aws:airflow:us-east-2:704533066374:environment/airflow-devopswld-demo-dev"
+                            },
+                            {
+                              "Action": "s3:ListAllMyBuckets",
+                              "Effect": "Deny",
+                              "Resource": [
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "mwaadags537631EF",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/*"
+                                    ]
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
+                                    "mwaadags537631EF",
+                                    "Arn"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Action": "s3:*",
+                              "Effect": "Allow",
+                              "Resource": [
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "mwaadags537631EF",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/*"
+                                    ]
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
+                                    "mwaadags537631EF",
+                                    "Arn"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Action": [
+                                "logs:CreateLogStream",
+                                "logs:CreateLogGroup",
+                                "logs:PutLogEvents",
+                                "logs:GetLogEvents",
+                                "logs:GetLogRecord",
+                                "logs:GetLogGroupFields",
+                                "logs:GetQueryResults",
+                                "logs:DescribeLogGroups"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "arn:aws:logs:us-east-2:704533066374:log-group:airflow-airflow-devopswld-demo-*"
+                            },
+                            {
+                              "Action": "logs:DescribeLogGroups",
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": [
+                                "sqs:ChangeMessageVisibility",
+                                "sqs:DeleteMessage",
+                                "sqs:GetQueueAttributes",
+                                "sqs:GetQueueUrl",
+                                "sqs:ReceiveMessage",
+                                "sqs:SendMessage"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "arn:aws:sqs:us-east-2:*:airflow-celery-*"
+                            },
+                            {
+                              "Action": [
+                                "ecs:RunTask",
+                                "ecs:DescribeTasks",
+                                "ecs:RegisterTaskDefinition",
+                                "ecs:DescribeTaskDefinition",
+                                "ecs:ListTasks"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": "iam:PassRole",
+                              "Condition": {
+                                "StringLike": {
+                                  "iam:PassedToService": "ecs-tasks.amazonaws.com"
+                                }
+                              },
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": [
+                                "kms:Decrypt",
+                                "kms:DescribeKey",
+                                "kms:GenerateDataKey*",
+                                "kms:Encrypt",
+                                "kms:PutKeyPolicy"
+                              ],
+                              "Condition": {
+                                "StringEquals": {
+                                  "kms:ViaService": [
+                                    "sqs.us-east-2.amazonaws.com",
+                                    "s3.us-east-2.amazonaws.com"
+                                  ]
+                                }
+                              },
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.2.0"
+            }
+          },
+          "mwaa-sg-dev": {
+            "id": "mwaa-sg-dev",
+            "path": "mwaa-devopswld-dev-environment/mwaa-sg-dev",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "mwaa-devopswld-dev-environment/mwaa-sg-dev/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "mwaa-devopswld-dev-environment/mwaa-sg-dev",
+                    "groupName": "mwaa-sg-dev",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "description": "Allow all outbound traffic by default",
+                        "ipProtocol": "-1"
+                      }
+                    ],
+                    "vpcId": {
+                      "Fn::ImportValue": "mwaa-devopswld-backend:ExportsOutputRefMWAADevOpsWldApacheAirflowVPC3BD53A14D6136385"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.2.0"
+                }
+              },
+              "from mwaadevopswlddevenvironmentmwaasgdev08E5CC2C:ALL TRAFFIC": {
+                "id": "from mwaadevopswlddevenvironmentmwaasgdev08E5CC2C:ALL TRAFFIC",
+                "path": "mwaa-devopswld-dev-environment/mwaa-sg-dev/from mwaadevopswlddevenvironmentmwaasgdev08E5CC2C:ALL TRAFFIC",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "-1",
+                    "description": "MWAA-dev",
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "mwaasgdevD356F4A3",
+                        "GroupId"
+                      ]
+                    },
+                    "sourceSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "mwaasgdevD356F4A3",
+                        "GroupId"
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.2.0"
+            }
+          },
+          "airflow-devopswld-demoKey-dev": {
+            "id": "airflow-devopswld-demoKey-dev",
+            "path": "mwaa-devopswld-dev-environment/airflow-devopswld-demoKey-dev",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "mwaa-devopswld-dev-environment/airflow-devopswld-demoKey-dev/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::KMS::Key",
+                  "aws:cdk:cloudformation:props": {
+                    "keyPolicy": {
+                      "Statement": [
+                        {
+                          "Action": [
+                            "kms:Create*",
+                            "kms:Describe*",
+                            "kms:Enable*",
+                            "kms:List*",
+                            "kms:Put*",
+                            "kms:Decrypt*",
+                            "kms:Update*",
+                            "kms:Revoke*",
+                            "kms:Disable*",
+                            "kms:Get*",
+                            "kms:Delete*",
+                            "kms:ScheduleKeyDeletion",
+                            "kms:GenerateDataKey*",
+                            "kms:CancelKeyDeletion"
+                          ],
+                          "Effect": "Allow",
+                          "Principal": {
+                            "AWS": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "arn:",
+                                  {
+                                    "Ref": "AWS::Partition"
+                                  },
+                                  ":iam::704533066374:root"
+                                ]
+                              ]
+                            }
+                          },
+                          "Resource": "*"
+                        },
+                        {
+                          "Action": [
+                            "kms:Decrypt*",
+                            "kms:Describe*",
+                            "kms:GenerateDataKey*",
+                            "kms:Encrypt*",
+                            "kms:ReEncrypt*",
+                            "kms:PutKeyPolicy"
+                          ],
+                          "Condition": {
+                            "ArnLike": {
+                              "kms:EncryptionContext:aws:logs:arn": "arn:aws:logs:us-east-2:704533066374:*"
+                            }
+                          },
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "logs.us-east-2.amazonaws.com"
+                          },
+                          "Resource": "*"
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "enableKeyRotation": true
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_kms.CfnKey",
+                  "version": "2.2.0"
+                }
+              },
+              "Alias": {
+                "id": "Alias",
+                "path": "mwaa-devopswld-dev-environment/airflow-devopswld-demoKey-dev/Alias",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "mwaa-devopswld-dev-environment/airflow-devopswld-demoKey-dev/Alias/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::KMS::Alias",
+                      "aws:cdk:cloudformation:props": {
+                        "aliasName": "alias/airflow-devopswld-demoKey-dev",
+                        "targetKeyId": {
+                          "Fn::GetAtt": [
+                            "airflowdevopswlddemoKeydev440167FC",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_kms.CfnAlias",
+                      "version": "2.2.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_kms.Alias",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_kms.Key",
+              "version": "2.2.0"
+            }
+          },
+          "airflow-test-environment-dev": {
+            "id": "airflow-test-environment-dev",
+            "path": "mwaa-devopswld-dev-environment/airflow-test-environment-dev",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::MWAA::Environment",
+              "aws:cdk:cloudformation:props": {
+                "name": "airflow-devopswld-demo-dev",
+                "airflowConfigurationOptions": {
+                  "core.default_timezone": "utc"
+                },
+                "airflowVersion": "2.0.2",
+                "dagS3Path": "dags",
+                "environmentClass": "mw1.small",
+                "executionRoleArn": {
+                  "Fn::GetAtt": [
+                    "mwaaservicerole26CF19B9",
+                    "Arn"
+                  ]
+                },
+                "kmsKey": {
+                  "Fn::GetAtt": [
+                    "airflowdevopswlddemoKeydev440167FC",
+                    "Arn"
+                  ]
+                },
+                "loggingConfiguration": {
+                  "dagProcessingLogs": {
+                    "enabled": true,
+                    "logLevel": "INFO"
+                  },
+                  "schedulerLogs": {
+                    "enabled": true,
+                    "logLevel": "INFO"
+                  },
+                  "taskLogs": {
+                    "enabled": true,
+                    "logLevel": "INFO"
+                  },
+                  "webserverLogs": {
+                    "enabled": true,
+                    "logLevel": "INFO"
+                  },
+                  "workerLogs": {
+                    "enabled": true,
+                    "logLevel": "INFO"
+                  }
+                },
+                "maxWorkers": 5,
+                "networkConfiguration": {
+                  "securityGroupIds": [
+                    {
+                      "Fn::GetAtt": [
+                        "mwaasgdevD356F4A3",
+                        "GroupId"
+                      ]
+                    }
+                  ],
+                  "subnetIds": [
+                    {
+                      "Fn::ImportValue": "mwaa-devopswld-backend:ExportsOutputRefMWAADevOpsWldApacheAirflowVPCprivateSubnet1Subnet2397E7010300BFD7"
+                    },
+                    {
+                      "Fn::ImportValue": "mwaa-devopswld-backend:ExportsOutputRefMWAADevOpsWldApacheAirflowVPCprivateSubnet2Subnet6189CFE72253D982"
+                    }
+                  ]
+                },
+                "sourceBucketArn": {
+                  "Fn::GetAtt": [
+                    "mwaadags537631EF",
+                    "Arn"
+                  ]
+                },
+                "webserverAccessMode": "PUBLIC_ONLY"
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_mwaa.CfnEnvironment",
+              "version": "2.2.0"
+            }
+          },
+          "MWAASecurityGroup-dev": {
+            "id": "MWAASecurityGroup-dev",
+            "path": "mwaa-devopswld-dev-environment/MWAASecurityGroup-dev",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.2.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "mwaa-devopswld-dev-environment/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "mwaa-devopswld-dev-environment/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.28"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.2.0"
+        }
+      },
+      "mwaa-devopswld-prd-environment": {
+        "id": "mwaa-devopswld-prd-environment",
+        "path": "mwaa-devopswld-prd-environment",
+        "children": {
+          "mwaa-dags": {
+            "id": "mwaa-dags",
+            "path": "mwaa-devopswld-prd-environment/mwaa-dags",
+            "children": {
+              "Notifications": {
+                "id": "Notifications",
+                "path": "mwaa-devopswld-prd-environment/mwaa-dags/Notifications",
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.1.28"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "mwaa-devopswld-prd-environment/mwaa-dags/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "bucketName": "airflow-devopswld-demo-prd",
+                    "publicAccessBlockConfiguration": {
+                      "blockPublicAcls": true,
+                      "blockPublicPolicy": true,
+                      "ignorePublicAcls": true,
+                      "restrictPublicBuckets": true
+                    },
+                    "tags": [
+                      {
+                        "key": "aws-cdk:cr-owned:dags:00207a42",
+                        "value": "true"
+                      },
+                      {
+                        "key": "env",
+                        "value": "airflow-devopswld-demo-prd"
+                      },
+                      {
+                        "key": "service",
+                        "value": "MWAA Apache AirFlow"
+                      }
+                    ],
+                    "versioningConfiguration": {
+                      "status": "Enabled"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_s3.Bucket",
+              "version": "2.2.0"
+            }
+          },
+          "DeployDAG": {
+            "id": "DeployDAG",
+            "path": "mwaa-devopswld-prd-environment/DeployDAG",
+            "children": {
+              "AwsCliLayer": {
+                "id": "AwsCliLayer",
+                "path": "mwaa-devopswld-prd-environment/DeployDAG/AwsCliLayer",
+                "children": {
+                  "Code": {
+                    "id": "Code",
+                    "path": "mwaa-devopswld-prd-environment/DeployDAG/AwsCliLayer/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "mwaa-devopswld-prd-environment/DeployDAG/AwsCliLayer/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.2.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "mwaa-devopswld-prd-environment/DeployDAG/AwsCliLayer/Code/AssetBucket",
+                        "children": {
+                          "Notifications": {
+                            "id": "Notifications",
+                            "path": "mwaa-devopswld-prd-environment/DeployDAG/AwsCliLayer/Code/AssetBucket/Notifications",
+                            "constructInfo": {
+                              "fqn": "constructs.Construct",
+                              "version": "10.1.28"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.2.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "mwaa-devopswld-prd-environment/DeployDAG/AwsCliLayer/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::LayerVersion",
+                      "aws:cdk:cloudformation:props": {
+                        "content": {
+                          "s3Bucket": "cdk-hnb659fds-assets-704533066374-us-east-2",
+                          "s3Key": "e9882ab123687399f934da0d45effe675ecc8ce13b40cb946f3e1d6141fe8d68.zip"
+                        },
+                        "description": "/opt/awscli/aws"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnLayerVersion",
+                      "version": "2.2.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer",
+                  "version": "2.2.0"
+                }
+              },
+              "CustomResourceHandler": {
+                "id": "CustomResourceHandler",
+                "path": "mwaa-devopswld-prd-environment/DeployDAG/CustomResourceHandler",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.SingletonFunction",
+                  "version": "2.2.0"
+                }
+              },
+              "Asset1": {
+                "id": "Asset1",
+                "path": "mwaa-devopswld-prd-environment/DeployDAG/Asset1",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "mwaa-devopswld-prd-environment/DeployDAG/Asset1/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "mwaa-devopswld-prd-environment/DeployDAG/Asset1/AssetBucket",
+                    "children": {
+                      "Notifications": {
+                        "id": "Notifications",
+                        "path": "mwaa-devopswld-prd-environment/DeployDAG/Asset1/AssetBucket/Notifications",
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.1.28"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.2.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.2.0"
+                }
+              },
+              "CustomResource": {
+                "id": "CustomResource",
+                "path": "mwaa-devopswld-prd-environment/DeployDAG/CustomResource",
+                "children": {
+                  "Default": {
+                    "id": "Default",
+                    "path": "mwaa-devopswld-prd-environment/DeployDAG/CustomResource/Default",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnResource",
+                      "version": "2.2.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CustomResource",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_s3_deployment.BucketDeployment",
+              "version": "2.2.0"
+            }
+          },
+          "Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C": {
+            "id": "Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C",
+            "path": "mwaa-devopswld-prd-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "mwaa-devopswld-prd-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "mwaa-devopswld-prd-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "mwaa-devopswld-prd-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "mwaa-devopswld-prd-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "s3:GetObject*",
+                                    "s3:GetBucket*",
+                                    "s3:List*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":s3:::cdk-hnb659fds-assets-704533066374-us-east-2"
+                                        ]
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":s3:::cdk-hnb659fds-assets-704533066374-us-east-2/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "Action": [
+                                    "s3:GetObject*",
+                                    "s3:GetBucket*",
+                                    "s3:List*",
+                                    "s3:DeleteObject*",
+                                    "s3:PutObject",
+                                    "s3:Abort*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "mwaadags537631EF",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          {
+                                            "Fn::GetAtt": [
+                                              "mwaadags537631EF",
+                                              "Arn"
+                                            ]
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+                            "roles": [
+                              {
+                                "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.2.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.2.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.2.0"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "mwaa-devopswld-prd-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "mwaa-devopswld-prd-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.2.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "mwaa-devopswld-prd-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code/AssetBucket",
+                    "children": {
+                      "Notifications": {
+                        "id": "Notifications",
+                        "path": "mwaa-devopswld-prd-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code/AssetBucket/Notifications",
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.1.28"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.2.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.2.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "mwaa-devopswld-prd-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": "cdk-hnb659fds-assets-704533066374-us-east-2",
+                      "s3Key": "983c442a2fe823a8b4ebb18d241a5150ae15103dacbf3f038c7c6343e565aa4c.zip"
+                    },
+                    "role": {
+                      "Fn::GetAtt": [
+                        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+                        "Arn"
+                      ]
+                    },
+                    "handler": "index.handler",
+                    "layers": [
+                      {
+                        "Ref": "DeployDAGAwsCliLayer6BE262D5"
+                      }
+                    ],
+                    "runtime": "python3.7",
+                    "timeout": 900
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.2.0"
+            }
+          },
+          "mwaa-service-role": {
+            "id": "mwaa-service-role",
+            "path": "mwaa-devopswld-prd-environment/mwaa-service-role",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "mwaa-devopswld-prd-environment/mwaa-service-role/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": [
+                              "airflow.amazonaws.com",
+                              "airflow-env.amazonaws.com",
+                              "ecs-tasks.amazonaws.com"
+                            ]
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "path": "/service-role/",
+                    "policies": [
+                      {
+                        "policyName": "CDKmwaaPolicyDocument",
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "airflow:PublishMetrics",
+                              "Effect": "Allow",
+                              "Resource": "arn:aws:airflow:us-east-2:704533066374:environment/airflow-devopswld-demo-prd"
+                            },
+                            {
+                              "Action": "s3:ListAllMyBuckets",
+                              "Effect": "Deny",
+                              "Resource": [
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "mwaadags537631EF",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/*"
+                                    ]
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
+                                    "mwaadags537631EF",
+                                    "Arn"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Action": "s3:*",
+                              "Effect": "Allow",
+                              "Resource": [
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "mwaadags537631EF",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/*"
+                                    ]
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
+                                    "mwaadags537631EF",
+                                    "Arn"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Action": [
+                                "logs:CreateLogStream",
+                                "logs:CreateLogGroup",
+                                "logs:PutLogEvents",
+                                "logs:GetLogEvents",
+                                "logs:GetLogRecord",
+                                "logs:GetLogGroupFields",
+                                "logs:GetQueryResults",
+                                "logs:DescribeLogGroups"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "arn:aws:logs:us-east-2:704533066374:log-group:airflow-airflow-devopswld-demo-*"
+                            },
+                            {
+                              "Action": "logs:DescribeLogGroups",
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": [
+                                "sqs:ChangeMessageVisibility",
+                                "sqs:DeleteMessage",
+                                "sqs:GetQueueAttributes",
+                                "sqs:GetQueueUrl",
+                                "sqs:ReceiveMessage",
+                                "sqs:SendMessage"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "arn:aws:sqs:us-east-2:*:airflow-celery-*"
+                            },
+                            {
+                              "Action": [
+                                "ecs:RunTask",
+                                "ecs:DescribeTasks",
+                                "ecs:RegisterTaskDefinition",
+                                "ecs:DescribeTaskDefinition",
+                                "ecs:ListTasks"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": "iam:PassRole",
+                              "Condition": {
+                                "StringLike": {
+                                  "iam:PassedToService": "ecs-tasks.amazonaws.com"
+                                }
+                              },
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": [
+                                "kms:Decrypt",
+                                "kms:DescribeKey",
+                                "kms:GenerateDataKey*",
+                                "kms:Encrypt",
+                                "kms:PutKeyPolicy"
+                              ],
+                              "Condition": {
+                                "StringEquals": {
+                                  "kms:ViaService": [
+                                    "sqs.us-east-2.amazonaws.com",
+                                    "s3.us-east-2.amazonaws.com"
+                                  ]
+                                }
+                              },
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.2.0"
+            }
+          },
+          "mwaa-sg-prd": {
+            "id": "mwaa-sg-prd",
+            "path": "mwaa-devopswld-prd-environment/mwaa-sg-prd",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "mwaa-devopswld-prd-environment/mwaa-sg-prd/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "mwaa-devopswld-prd-environment/mwaa-sg-prd",
+                    "groupName": "mwaa-sg-prd",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "description": "Allow all outbound traffic by default",
+                        "ipProtocol": "-1"
+                      }
+                    ],
+                    "vpcId": {
+                      "Fn::ImportValue": "mwaa-devopswld-backend:ExportsOutputRefMWAADevOpsWldApacheAirflowVPC3BD53A14D6136385"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.2.0"
+                }
+              },
+              "from mwaadevopswldprdenvironmentmwaasgprdC98A09AB:ALL TRAFFIC": {
+                "id": "from mwaadevopswldprdenvironmentmwaasgprdC98A09AB:ALL TRAFFIC",
+                "path": "mwaa-devopswld-prd-environment/mwaa-sg-prd/from mwaadevopswldprdenvironmentmwaasgprdC98A09AB:ALL TRAFFIC",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "-1",
+                    "description": "MWAA-prd",
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "mwaasgprdD70A8244",
+                        "GroupId"
+                      ]
+                    },
+                    "sourceSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "mwaasgprdD70A8244",
+                        "GroupId"
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.2.0"
+            }
+          },
+          "airflow-devopswld-demoKey-prd": {
+            "id": "airflow-devopswld-demoKey-prd",
+            "path": "mwaa-devopswld-prd-environment/airflow-devopswld-demoKey-prd",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "mwaa-devopswld-prd-environment/airflow-devopswld-demoKey-prd/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::KMS::Key",
+                  "aws:cdk:cloudformation:props": {
+                    "keyPolicy": {
+                      "Statement": [
+                        {
+                          "Action": [
+                            "kms:Create*",
+                            "kms:Describe*",
+                            "kms:Enable*",
+                            "kms:List*",
+                            "kms:Put*",
+                            "kms:Decrypt*",
+                            "kms:Update*",
+                            "kms:Revoke*",
+                            "kms:Disable*",
+                            "kms:Get*",
+                            "kms:Delete*",
+                            "kms:ScheduleKeyDeletion",
+                            "kms:GenerateDataKey*",
+                            "kms:CancelKeyDeletion"
+                          ],
+                          "Effect": "Allow",
+                          "Principal": {
+                            "AWS": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "arn:",
+                                  {
+                                    "Ref": "AWS::Partition"
+                                  },
+                                  ":iam::704533066374:root"
+                                ]
+                              ]
+                            }
+                          },
+                          "Resource": "*"
+                        },
+                        {
+                          "Action": [
+                            "kms:Decrypt*",
+                            "kms:Describe*",
+                            "kms:GenerateDataKey*",
+                            "kms:Encrypt*",
+                            "kms:ReEncrypt*",
+                            "kms:PutKeyPolicy"
+                          ],
+                          "Condition": {
+                            "ArnLike": {
+                              "kms:EncryptionContext:aws:logs:arn": "arn:aws:logs:us-east-2:704533066374:*"
+                            }
+                          },
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "logs.us-east-2.amazonaws.com"
+                          },
+                          "Resource": "*"
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "enableKeyRotation": true
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_kms.CfnKey",
+                  "version": "2.2.0"
+                }
+              },
+              "Alias": {
+                "id": "Alias",
+                "path": "mwaa-devopswld-prd-environment/airflow-devopswld-demoKey-prd/Alias",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "mwaa-devopswld-prd-environment/airflow-devopswld-demoKey-prd/Alias/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::KMS::Alias",
+                      "aws:cdk:cloudformation:props": {
+                        "aliasName": "alias/airflow-devopswld-demoKey-prd",
+                        "targetKeyId": {
+                          "Fn::GetAtt": [
+                            "airflowdevopswlddemoKeyprd18923E63",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_kms.CfnAlias",
+                      "version": "2.2.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_kms.Alias",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_kms.Key",
+              "version": "2.2.0"
+            }
+          },
+          "airflow-test-environment-prd": {
+            "id": "airflow-test-environment-prd",
+            "path": "mwaa-devopswld-prd-environment/airflow-test-environment-prd",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::MWAA::Environment",
+              "aws:cdk:cloudformation:props": {
+                "name": "airflow-devopswld-demo-prd",
+                "airflowConfigurationOptions": {
+                  "core.default_timezone": "utc"
+                },
+                "airflowVersion": "2.0.2",
+                "dagS3Path": "dags",
+                "environmentClass": "mw1.small",
+                "executionRoleArn": {
+                  "Fn::GetAtt": [
+                    "mwaaservicerole26CF19B9",
+                    "Arn"
+                  ]
+                },
+                "kmsKey": {
+                  "Fn::GetAtt": [
+                    "airflowdevopswlddemoKeyprd18923E63",
+                    "Arn"
+                  ]
+                },
+                "loggingConfiguration": {
+                  "dagProcessingLogs": {
+                    "enabled": true,
+                    "logLevel": "INFO"
+                  },
+                  "schedulerLogs": {
+                    "enabled": true,
+                    "logLevel": "INFO"
+                  },
+                  "taskLogs": {
+                    "enabled": true,
+                    "logLevel": "INFO"
+                  },
+                  "webserverLogs": {
+                    "enabled": true,
+                    "logLevel": "INFO"
+                  },
+                  "workerLogs": {
+                    "enabled": true,
+                    "logLevel": "INFO"
+                  }
+                },
+                "maxWorkers": 5,
+                "networkConfiguration": {
+                  "securityGroupIds": [
+                    {
+                      "Fn::GetAtt": [
+                        "mwaasgprdD70A8244",
+                        "GroupId"
+                      ]
+                    }
+                  ],
+                  "subnetIds": [
+                    {
+                      "Fn::ImportValue": "mwaa-devopswld-backend:ExportsOutputRefMWAADevOpsWldApacheAirflowVPCprivateSubnet1Subnet2397E7010300BFD7"
+                    },
+                    {
+                      "Fn::ImportValue": "mwaa-devopswld-backend:ExportsOutputRefMWAADevOpsWldApacheAirflowVPCprivateSubnet2Subnet6189CFE72253D982"
+                    }
+                  ]
+                },
+                "sourceBucketArn": {
+                  "Fn::GetAtt": [
+                    "mwaadags537631EF",
+                    "Arn"
+                  ]
+                },
+                "webserverAccessMode": "PUBLIC_ONLY"
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_mwaa.CfnEnvironment",
+              "version": "2.2.0"
+            }
+          },
+          "MWAASecurityGroup-prd": {
+            "id": "MWAASecurityGroup-prd",
+            "path": "mwaa-devopswld-prd-environment/MWAASecurityGroup-prd",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.2.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "mwaa-devopswld-prd-environment/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "mwaa-devopswld-prd-environment/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.2.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.28"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.2.0"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.2.0"
+    }
+  }
+}

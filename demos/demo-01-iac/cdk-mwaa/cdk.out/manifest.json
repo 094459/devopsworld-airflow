@@ -1,0 +1,513 @@
+{
+  "version": "15.0.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "mwaa-devopswld-backend.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "mwaa-devopswld-backend.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "mwaa-devopswld-backend": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://704533066374/us-east-2",
+      "properties": {
+        "templateFile": "mwaa-devopswld-backend.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::704533066374:role/cdk-hnb659fds-deploy-role-704533066374-us-east-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::704533066374:role/cdk-hnb659fds-cfn-exec-role-704533066374-us-east-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-704533066374-us-east-2/f40b6d6ee60a5307f66cccbef3de1384a3bc0fb93c529f6b649f1f57b74123e6.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "mwaa-devopswld-backend.assets"
+        ]
+      },
+      "dependencies": [
+        "mwaa-devopswld-backend.assets"
+      ],
+      "metadata": {
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPC3BD53A14"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1SubnetE4746FA9"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1RouteTable52796DC5"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1RouteTableAssociation6B52DDBB"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1DefaultRouteDBBDC208"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1EIP4D3CB7B1"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet1/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCpublicSubnet1NATGatewayE9268F9C"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCpublicSubnet2Subnet1D5ECA00"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCpublicSubnet2RouteTableB0EF0A11"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCpublicSubnet2RouteTableAssociationE7C3EB10"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/publicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCpublicSubnet2DefaultRoute1B06FB97"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCprivateSubnet1Subnet2397E701"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCprivateSubnet1RouteTable3B90D7A5"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCprivateSubnet1RouteTableAssociation7B5CB92F"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCprivateSubnet1DefaultRouteDA809084"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCprivateSubnet2Subnet6189CFE7"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCprivateSubnet2RouteTableDA26173E"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCprivateSubnet2RouteTableAssociation60C0EB3C"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/privateSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCprivateSubnet2DefaultRoute5E07E2D3"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCIGW7B4098AC"
+          }
+        ],
+        "/mwaa-devopswld-backend/MWAA-DevOpsWld-ApacheAirflow-VPC/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAADevOpsWldApacheAirflowVPCVPCGW53487B6C"
+          }
+        ],
+        "/mwaa-devopswld-backend/VPCId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCId"
+          }
+        ],
+        "/mwaa-devopswld-backend/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/mwaa-devopswld-backend/Exports/Output{\"Ref\":\"MWAADevOpsWldApacheAirflowVPC3BD53A14\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefMWAADevOpsWldApacheAirflowVPC3BD53A14D6136385"
+          }
+        ],
+        "/mwaa-devopswld-backend/Exports/Output{\"Ref\":\"MWAADevOpsWldApacheAirflowVPCprivateSubnet1Subnet2397E701\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefMWAADevOpsWldApacheAirflowVPCprivateSubnet1Subnet2397E7010300BFD7"
+          }
+        ],
+        "/mwaa-devopswld-backend/Exports/Output{\"Ref\":\"MWAADevOpsWldApacheAirflowVPCprivateSubnet2Subnet6189CFE7\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefMWAADevOpsWldApacheAirflowVPCprivateSubnet2Subnet6189CFE72253D982"
+          }
+        ],
+        "/mwaa-devopswld-backend/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/mwaa-devopswld-backend/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "mwaa-devopswld-backend"
+    },
+    "mwaa-devopswld-dev-environment.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "mwaa-devopswld-dev-environment.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "mwaa-devopswld-dev-environment": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://704533066374/us-east-2",
+      "properties": {
+        "templateFile": "mwaa-devopswld-dev-environment.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::704533066374:role/cdk-hnb659fds-deploy-role-704533066374-us-east-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::704533066374:role/cdk-hnb659fds-cfn-exec-role-704533066374-us-east-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-704533066374-us-east-2/32df385f3ab5390aa8802190c35836294f046304a8a46730b19157ec3d0666f0.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "mwaa-devopswld-dev-environment.assets"
+        ]
+      },
+      "dependencies": [
+        "mwaa-devopswld-backend",
+        "mwaa-devopswld-dev-environment.assets"
+      ],
+      "metadata": {
+        "/mwaa-devopswld-dev-environment/mwaa-dags/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mwaadags537631EF"
+          }
+        ],
+        "/mwaa-devopswld-dev-environment/DeployDAG/AwsCliLayer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeployDAGAwsCliLayer6BE262D5"
+          }
+        ],
+        "/mwaa-devopswld-dev-environment/DeployDAG/CustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeployDAGCustomResource1EAEB4D8"
+          }
+        ],
+        "/mwaa-devopswld-dev-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+          }
+        ],
+        "/mwaa-devopswld-dev-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF"
+          }
+        ],
+        "/mwaa-devopswld-dev-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536"
+          }
+        ],
+        "/mwaa-devopswld-dev-environment/mwaa-service-role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mwaaservicerole26CF19B9"
+          }
+        ],
+        "/mwaa-devopswld-dev-environment/mwaa-sg-dev": [
+          {
+            "type": "aws:cdk:warning",
+            "data": "Ignoring Egress rule since 'allowAllOutbound' is set to true; To add customize rules, set allowAllOutbound=false on the SecurityGroup",
+            "trace": [
+              "Annotations.addMessage (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/jsii-kernel-P3jDwi/node_modules/aws-cdk-lib/core/lib/annotations.js:98:42)",
+              "Annotations.addWarning (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/jsii-kernel-P3jDwi/node_modules/aws-cdk-lib/core/lib/annotations.js:41:14)",
+              "SecurityGroup.addEgressRule (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/jsii-kernel-P3jDwi/node_modules/aws-cdk-lib/aws-ec2/lib/security-group.js:382:45)",
+              "/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/jsii-kernel-P3jDwi/node_modules/aws-cdk-lib/aws-ec2/lib/connections.js:136:31",
+              "ReactiveList.forEachAndForever (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/jsii-kernel-P3jDwi/node_modules/aws-cdk-lib/aws-ec2/lib/connections.js:239:13)",
+              "/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/jsii-kernel-P3jDwi/node_modules/aws-cdk-lib/aws-ec2/lib/connections.js:134:38",
+              "ReactiveList.forEachAndForever (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/jsii-kernel-P3jDwi/node_modules/aws-cdk-lib/aws-ec2/lib/connections.js:239:13)",
+              "Connections.allowInternally (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/jsii-kernel-P3jDwi/node_modules/aws-cdk-lib/aws-ec2/lib/connections.js:133:30)",
+              "/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/tmptb78ggre/lib/program.js:8236:134",
+              "Kernel._wrapSandboxCode (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/tmptb78ggre/lib/program.js:8848:24)",
+              "/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/tmptb78ggre/lib/program.js:8236:107",
+              "Kernel._ensureSync (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/tmptb78ggre/lib/program.js:8829:28)",
+              "Kernel.invoke (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/tmptb78ggre/lib/program.js:8236:34)",
+              "KernelHost.processRequest (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/tmptb78ggre/lib/program.js:9769:36)",
+              "KernelHost.run (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/tmptb78ggre/lib/program.js:9732:22)",
+              "Immediate._onImmediate (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/tmptb78ggre/lib/program.js:9733:46)",
+              "processImmediate (internal/timers.js:464:21)"
+            ]
+          }
+        ],
+        "/mwaa-devopswld-dev-environment/mwaa-sg-dev/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mwaasgdevD356F4A3"
+          }
+        ],
+        "/mwaa-devopswld-dev-environment/mwaa-sg-dev/from mwaadevopswlddevenvironmentmwaasgdev08E5CC2C:ALL TRAFFIC": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mwaasgdevfrommwaadevopswlddevenvironmentmwaasgdev08E5CC2CALLTRAFFICF49A381D"
+          }
+        ],
+        "/mwaa-devopswld-dev-environment/airflow-devopswld-demoKey-dev/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "airflowdevopswlddemoKeydev440167FC"
+          }
+        ],
+        "/mwaa-devopswld-dev-environment/airflow-devopswld-demoKey-dev/Alias/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "airflowdevopswlddemoKeydevAlias16DE47C9"
+          }
+        ],
+        "/mwaa-devopswld-dev-environment/airflow-test-environment-dev": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "airflowtestenvironmentdev"
+          }
+        ],
+        "/mwaa-devopswld-dev-environment/MWAASecurityGroup-dev": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAASecurityGroupdev"
+          }
+        ],
+        "/mwaa-devopswld-dev-environment/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/mwaa-devopswld-dev-environment/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/mwaa-devopswld-dev-environment/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "mwaa-devopswld-dev-environment"
+    },
+    "mwaa-devopswld-prd-environment.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "mwaa-devopswld-prd-environment.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "mwaa-devopswld-prd-environment": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://704533066374/us-east-2",
+      "properties": {
+        "templateFile": "mwaa-devopswld-prd-environment.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::704533066374:role/cdk-hnb659fds-deploy-role-704533066374-us-east-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::704533066374:role/cdk-hnb659fds-cfn-exec-role-704533066374-us-east-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-704533066374-us-east-2/28fe61e8190293370c5ef4f051724121b36e777cdf319e801aba309a1101a31a.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "mwaa-devopswld-prd-environment.assets"
+        ]
+      },
+      "dependencies": [
+        "mwaa-devopswld-backend",
+        "mwaa-devopswld-prd-environment.assets"
+      ],
+      "metadata": {
+        "/mwaa-devopswld-prd-environment/mwaa-dags/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mwaadags537631EF"
+          }
+        ],
+        "/mwaa-devopswld-prd-environment/DeployDAG/AwsCliLayer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeployDAGAwsCliLayer6BE262D5"
+          }
+        ],
+        "/mwaa-devopswld-prd-environment/DeployDAG/CustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeployDAGCustomResource1EAEB4D8"
+          }
+        ],
+        "/mwaa-devopswld-prd-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+          }
+        ],
+        "/mwaa-devopswld-prd-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF"
+          }
+        ],
+        "/mwaa-devopswld-prd-environment/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536"
+          }
+        ],
+        "/mwaa-devopswld-prd-environment/mwaa-service-role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mwaaservicerole26CF19B9"
+          }
+        ],
+        "/mwaa-devopswld-prd-environment/mwaa-sg-prd": [
+          {
+            "type": "aws:cdk:warning",
+            "data": "Ignoring Egress rule since 'allowAllOutbound' is set to true; To add customize rules, set allowAllOutbound=false on the SecurityGroup",
+            "trace": [
+              "Annotations.addMessage (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/jsii-kernel-P3jDwi/node_modules/aws-cdk-lib/core/lib/annotations.js:98:42)",
+              "Annotations.addWarning (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/jsii-kernel-P3jDwi/node_modules/aws-cdk-lib/core/lib/annotations.js:41:14)",
+              "SecurityGroup.addEgressRule (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/jsii-kernel-P3jDwi/node_modules/aws-cdk-lib/aws-ec2/lib/security-group.js:382:45)",
+              "/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/jsii-kernel-P3jDwi/node_modules/aws-cdk-lib/aws-ec2/lib/connections.js:136:31",
+              "ReactiveList.forEachAndForever (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/jsii-kernel-P3jDwi/node_modules/aws-cdk-lib/aws-ec2/lib/connections.js:239:13)",
+              "/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/jsii-kernel-P3jDwi/node_modules/aws-cdk-lib/aws-ec2/lib/connections.js:134:38",
+              "ReactiveList.forEachAndForever (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/jsii-kernel-P3jDwi/node_modules/aws-cdk-lib/aws-ec2/lib/connections.js:239:13)",
+              "Connections.allowInternally (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/jsii-kernel-P3jDwi/node_modules/aws-cdk-lib/aws-ec2/lib/connections.js:133:30)",
+              "/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/tmptb78ggre/lib/program.js:8236:134",
+              "Kernel._wrapSandboxCode (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/tmptb78ggre/lib/program.js:8848:24)",
+              "/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/tmptb78ggre/lib/program.js:8236:107",
+              "Kernel._ensureSync (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/tmptb78ggre/lib/program.js:8829:28)",
+              "Kernel.invoke (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/tmptb78ggre/lib/program.js:8236:34)",
+              "KernelHost.processRequest (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/tmptb78ggre/lib/program.js:9769:36)",
+              "KernelHost.run (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/tmptb78ggre/lib/program.js:9732:22)",
+              "Immediate._onImmediate (/private/var/folders/1b/c7yzymb52f5gmw1t8dbf5nyc5dhzvz/T/tmptb78ggre/lib/program.js:9733:46)",
+              "processImmediate (internal/timers.js:464:21)"
+            ]
+          }
+        ],
+        "/mwaa-devopswld-prd-environment/mwaa-sg-prd/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mwaasgprdD70A8244"
+          }
+        ],
+        "/mwaa-devopswld-prd-environment/mwaa-sg-prd/from mwaadevopswldprdenvironmentmwaasgprdC98A09AB:ALL TRAFFIC": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mwaasgprdfrommwaadevopswldprdenvironmentmwaasgprdC98A09ABALLTRAFFICB87A5149"
+          }
+        ],
+        "/mwaa-devopswld-prd-environment/airflow-devopswld-demoKey-prd/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "airflowdevopswlddemoKeyprd18923E63"
+          }
+        ],
+        "/mwaa-devopswld-prd-environment/airflow-devopswld-demoKey-prd/Alias/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "airflowdevopswlddemoKeyprdAlias5C13BB50"
+          }
+        ],
+        "/mwaa-devopswld-prd-environment/airflow-test-environment-prd": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "airflowtestenvironmentprd"
+          }
+        ],
+        "/mwaa-devopswld-prd-environment/MWAASecurityGroup-prd": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MWAASecurityGroupprd"
+          }
+        ],
+        "/mwaa-devopswld-prd-environment/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/mwaa-devopswld-prd-environment/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/mwaa-devopswld-prd-environment/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "mwaa-devopswld-prd-environment"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "availability-zones:account=704533066374:region=us-east-2": [
+    "us-east-2a",
+    "us-east-2b",
+    "us-east-2c"
+  ],
+  "hosted-zone:account=704533066374:domainName=beachkube.co.uk:region=us-east-2": {
+    "Id": "/hostedzone/Z09188781ZYEUVQVBKPJ7",
+    "Name": "beachkube.co.uk."
+  }
+}

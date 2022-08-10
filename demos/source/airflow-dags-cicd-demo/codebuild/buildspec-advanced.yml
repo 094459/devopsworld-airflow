@@ -1,0 +1,27 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - version=$(aws ssm get-parameter --name "DEPLOY_VERSION" --region 'eu-west-3' --with-decryption | sed -n -e 's/.*Value\"[^\"]*//p' | sed -n -e 's/[\"\,]//gp')
+      - echo Deploying custom Airflow container version $version
+      - curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/linux/amd64/aws-iam-authenticator
+      - chmod +x ./aws-iam-authenticator
+      - mkdir -p ~/bin && cp ./aws-iam-authenticator ~/bin/aws-iam-authenticator && export PATH=~/bin:$PATH
+    # current bug with latest version that generates error "error: exec plugin: invalid apiVersion "client.authentication.k8s.io/v1alpha1"" -> https://github.com/aws/aws-cli/issues/6920
+    #curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+      - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.23.6/bin/linux/amd64/kubectl
+      - chmod +x kubectl
+      - mv ./kubectl /usr/local/bin/kubectl
+      - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+      - chmod 700 get_helm.sh
+    # get 3.8.2 to fix same bug as above
+      - DESIRED_VERSION=v3.8.2
+      - ./get_helm.sh
+      - aws eks update-kubeconfig --name Airflow-on-Kubernetes --region eu-west-3 --role-arn arn:aws:iam::704533066374:role/airflow-codebuild
+  build:
+    commands:
+      - sed -i "s|{airflowrelease}|$version|g" helm/values.yaml
+  post_build:
+    commands:
+      - helm repo add airflow-stable https://airflow-helm.github.io/charts
+      - helm upgrade -i airflow-cluster airflow-stable/airflow --namespace airflow-cluster --version "8.6.0" --values helm/values.yaml --debug

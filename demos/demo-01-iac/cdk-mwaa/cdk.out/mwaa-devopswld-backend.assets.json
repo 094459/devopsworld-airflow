@@ -1,0 +1,20 @@
+{
+  "version": "15.0.0",
+  "files": {
+    "f40b6d6ee60a5307f66cccbef3de1384a3bc0fb93c529f6b649f1f57b74123e6": {
+      "source": {
+        "path": "mwaa-devopswld-backend.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "704533066374-us-east-2": {
+          "bucketName": "cdk-hnb659fds-assets-704533066374-us-east-2",
+          "objectKey": "f40b6d6ee60a5307f66cccbef3de1384a3bc0fb93c529f6b649f1f57b74123e6.json",
+          "region": "us-east-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::704533066374:role/cdk-hnb659fds-file-publishing-role-704533066374-us-east-2"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

@@ -1,0 +1,29 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - git config --global credential.helper '!aws codecommit credential-helper $@'
+      - git config --global credential.UseHttpPath true
+      - git config --global user.email "codebuild@amazon.com"
+      - git config --global user.name "CodeBuild"
+  pre_build:
+    commands:
+      - version=$(aws ssm get-parameter --name "DEPLOY_VERSION" --region 'eu-west-3' --with-decryption | sed -n -e 's/.*Value\"[^\"]*//p' | sed -n -e 's/[\"\,]//gp')
+      - echo Deploying custom Airflow container version $version
+      - echo copy dag and plugin folders to tmp folder
+      - ls -al
+      - ls -altr dags
+      - ls -altr plugins
+      - cp -r dags /tmp
+      - cp -r plugins /tmp
+  build:
+    commands:
+      - echo Pushing code to production CodeCommit
+      - cd ~
+      - git clone https://git-codecommit.eu-west-3.amazonaws.com/v1/repos/airflow-dags-qa
+      - cd airflow-dags-qa
+      - cp -r /tmp/dags .
+      - cp -r /tmp/plugins .
+      - git add .
+      - git commit -m "QA Deployment via AWS Codecommit"
+      - git push

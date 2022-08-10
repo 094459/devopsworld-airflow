@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# do nothing if there are changes to commit
+if [ -z "$(git status --porcelain)" ]; then
+  exit 0
+fi
+
+python3 -m black dags/
+
+python3 -m  sqlfluff fix \
+  --dialect redshift \
+  --ignore parsing,templating \
+  dags/sql_redshift/

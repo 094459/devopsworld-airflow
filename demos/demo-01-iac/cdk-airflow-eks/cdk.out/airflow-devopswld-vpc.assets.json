@@ -1,0 +1,20 @@
+{
+  "version": "15.0.0",
+  "files": {
+    "75b20aac873d40b857d8b6f21c6eda88c534114963eb195f8c21eff6c73f6488": {
+      "source": {
+        "path": "airflow-devopswld-vpc.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "704533066374-us-east-2": {
+          "bucketName": "cdk-hnb659fds-assets-704533066374-us-east-2",
+          "objectKey": "75b20aac873d40b857d8b6f21c6eda88c534114963eb195f8c21eff6c73f6488.json",
+          "region": "us-east-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::704533066374:role/cdk-hnb659fds-file-publishing-role-704533066374-us-east-2"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

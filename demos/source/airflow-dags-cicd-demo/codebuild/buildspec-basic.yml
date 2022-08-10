@@ -1,0 +1,8 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+       - airflow_env=$(aws ssm get-parameter --name "AIRFLOW_ENV" --region 'eu-west-3' | sed -n -e 's/.*Value\"[^\"]*//p' | sed -n -e 's/[\"\,]//gp')
+       - aws s3 sync dags s3://$airflow_env/dags/ --delete
+       - aws s3 sync plugins s3://$airflow_env/plugins/ --delete

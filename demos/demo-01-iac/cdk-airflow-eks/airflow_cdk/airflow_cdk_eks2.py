@@ -456,6 +456,8 @@ class AirflowCdkStackEKS2(Stack):
         efs_csi_storageclass.node.add_dependency(awsefscsi_chart)
 
         # Deploy Airflow
+        # use version 1.0.26 of the ECR image which is known working if all else fails
+        # change the "pullPolicy": "IfNotPresent" to "Always" during testing
 
         airflow = cluster.add_helm_chart(
                 "eks-airflow-cluster",
@@ -469,8 +471,8 @@ class AirflowCdkStackEKS2(Stack):
                         "legacyCommands": False,
                         "image": {
                         "repository": "704533066374.dkr.ecr.us-east-2.amazonaws.com/airflow",
-                        "tag": "1.0.26",
-                        "pullPolicy": "IfNotPresent"
+                        "tag": "1.0.29",
+                        "pullPolicy": "Always"
                         },
                         "executor": "CeleryExecutor",
                         #"fernetKey": "${fernet}",

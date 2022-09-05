@@ -25,5 +25,5 @@ phases:
       - cp -r /tmp/dags .
       - cp -r /tmp/plugins .
       - git add .
-      - git commit -m "QA Deployment via AWS Codecommit"
+      - git commit --allow-empty -m "QA Deployment via AWS Codecommit"
       - git push

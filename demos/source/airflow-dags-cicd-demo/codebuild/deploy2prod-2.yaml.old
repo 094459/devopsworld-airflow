@@ -29,5 +29,5 @@ phases:
       - cp -r /tmp/dags .
       - cp -r /tmp/plugins .
       - git add .
-      - git commit --allow-empty -m "Production Deployment via codecommit"
+      - git commit -m "Production Deployment via codecommit"
       - git push

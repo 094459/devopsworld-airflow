@@ -26,7 +26,10 @@ services:
                 max-size: 10m
                 max-file: "3"
         volumes:
-            - ${PWD}/dags:/usr/local/airflow/dags
+            # - ${PWD}/dags:/usr/local/airflow/dags
+            # point to your dag folder that is synced to your remote git
+            # in this example i have checked out the rep to /Projects/airflow/cicd/codecommit-locallive/airflow-dags-cicd-demo/
+            - ${HOME}/Projects/airflow/cicd/codecommit-locallive/airflow-dags-cicd-demo/dags:/usr/local/airflow/dags
             - ${PWD}/plugins:/usr/local/airflow/plugins
             - ${HOME}/.aws/credentials:/usr/local/airflow/.aws/credentials:ro
         ports:

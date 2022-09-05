@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - pip install --upgrade pip
+      - pip install -r deps/requirements.txt
+  pre_build:
+    commands:
+      - echo ⌛ Starting Flake8 test...
+      - python3 -m flake8 --ignore E501 dags --benchmark || exit 1
+      - echo ⌛ Starting Black test...
+      - python3 -m pytest --cache-clear
+      - python3 -m pytest dags/ --black -v || exit 1
+  build:
+    commands:
+       - airflow_env=$(aws ssm get-parameter --name "AIRFLOW_ENV" --region 'eu-west-3' | sed -n -e 's/.*Value\"[^\"]*//p' | sed -n -e 's/[\"\,]//gp')
+       - aws s3 sync dags s3://$airflow_env/dags/ --delete
+       - aws s3 sync plugins s3://$airflow_env/plugins/ --delete

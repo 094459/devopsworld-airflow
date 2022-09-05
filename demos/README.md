@@ -4,6 +4,7 @@
 - aws admin access
 - dns name server on route53 (ricsue.dev)
 
+The source folder contains files that need to be copied to CodeCommit repos once they are created.
 
 **MWAA**
 

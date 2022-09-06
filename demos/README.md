@@ -1,64 +1,14 @@
 ### Demos for CI/CD and Apache Airflow
 
-# requirements
-- aws admin access
-- dns name server on route53 (ricsue.dev)
+This demo is in two parts.
 
-The source folder contains files that need to be copied to CodeCommit repos once they are created.
+**Automating the build of Apache Airflow**
 
-**MWAA**
+The code in the demo-01-iac folder container three demos on how you can automate the building of Apache Airflow. Two of them focus on Amazon Managed Workflows for Apache Airflow (MWAA), providing code for both AWS Cloud Development Kit (AWS CDK) and Hashi Corp's Terraform. The third used AWS CDK to build out how you can run self managed Apache Airflow on Kubernetes, using Helm charts to deploy Apache Airflow into an Amazon EKS Cluster. This demo provides a workflow that shows you how you can update the Apache Airflow image - something you might want to do if you want to have customer libraries, binaries or even non standard versions of Python.
 
-01 - Setting up a local developer environment - using mwaa-local-runner
-02 - Local git development and testing with mwaa-local-runner
+**Local Developer experience**
 
-03 - IaC how to deploy at scale MWAA using CDK - done 
-04 - IaC how to deploy at scale MWAA using Terraform - done
+The code in demo-02-localdev shows you how you can use the mwaa-local-runner to provide a local development environment for data engineers, and then shift left by using open source tools as well as git hooks to run tests on your Apache Airflow workflow files (DAGs) to detect and identify issues early and address issues before they are pushed to your Apache Airflow environments. The code provides some sample DAGs so you can see how this workflow works.
 
-05 - Deploy a simple CI/CD pipeline the deploy a DAG with a manual approval - done
-06 - Deploy a CI/CD pipeline that performs tests, and then deploys to production
-
-07 - Advanced use cases: updating plugins.zip and requirements.txt
-08 - Testing
-
-09 - Orchestrate container ETL logic via ECS Operator (hybrid/cloud)
-10 - Orchestrate container ETL logic via EKS Operator
-
-**Self Managed**
-
-01 - Building a CI/CD pipeline to automate the building of your Airflow image - done
-02 - Deploying a custom Airflow image to a Kubernetes cluster - done
-03 - Deploying a simple CI/CD pipeline - one branch/repo to the other -done
-04 - Advanced development workflows using branching and forking 
-
-
-
-### Ideas
-
-Create a larger efs volume on the workers - might be useful for doing larger work
-Need to figure out how to sync/copy files from efs to s3 and viceversa. especially if using for dags
-
-
-### Testing Demo
-
-1. Test requirements.txt
-2. Test DAG imports
-3. Test DAG is valid
-4. Style and other tools
-
-
-### Demo Flow
-
-10 min demo
-
-Show you a local developer setup and what a local iteration would look like
-- make a change
-- git commit - run tests
-- git push - deploy to qa and then to prod
-
-Show you how you can setup a simple CI/CD system with an approval stage
-
-
-Show you how you can automate the build/deployment of your Airflow environments
-
-
+The source folder container various git repos that need to support the CI/CD pipeline that is created for both of these demos.
 

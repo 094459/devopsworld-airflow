@@ -25,6 +25,15 @@ pushd tests || exit 1
 #python3 -m pytest tests.py -v || exit 1
 popd || exit 1
 
+echo "\n⌛ Starting Pylink Airflow tests..."
+pylint --load-plugins=pylint_airflow --disable=C,W --disable=similarities dags plugins || exit 1
+#pylint --load-plugins=pylint_airflow --disable=similarities dags plugins || exit 1
+
+echo "\n⌛ Starting DAG Validation tests..."
+pushd tests || exit 1
+python3 -m unittest dag_validation.py
+popd || exit 1
+
 echo "\n⌛ Starting SQLFluff tests..."
 pushd dags || exit 1
 python3 -m sqlfluff lint \
